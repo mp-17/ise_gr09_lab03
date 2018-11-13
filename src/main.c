@@ -5,9 +5,8 @@
 int main(int argc, char *argv[])
 {
 	basicCmd cmdStruct;
-
-	while() {
-		readCommand(* cmdStruct);
+	
+	while(readCommand(* cmdStruct) != 1) {
 		switch (cmdStruct.cmd) {
 	  	case POINT:
 	  		drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
