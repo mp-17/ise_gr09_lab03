@@ -1,9 +1,4 @@
 #include "read.h"
 
-int readChar(){
-  
-}
-
-int readCommand(){
-  
-}
+int readChar();
+int readCommand();
