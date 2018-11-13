@@ -1,4 +1,4 @@
-#include "draw.c"
+#include "draw.h"
 
 int readChar(){
   
