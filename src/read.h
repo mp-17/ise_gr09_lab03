@@ -2,8 +2,8 @@
 #define POINT 'P'
 #define LINE 'L'
 #define ELLIPSE 'E'
-#define xMax 128
-#define yMax 128
+#define xMax 127
+#define yMax 127
 
 // basicCmd contains
 // - cmd: the letter which encodes the command
