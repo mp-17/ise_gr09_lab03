@@ -29,7 +29,7 @@ char readChar(void) {
 // no memory modification
 short int readChar2Int(void) {
 
-	short unsigned int digit = 0;
+	unsigned short int digit = 0;
 
 	digit = (int)readChar() - '0';
 
@@ -57,7 +57,7 @@ short int readChar2Int(void) {
 // - *basicCommand memory locations
 short int readCommand(basicCmd* cmdStruc_pt) {
 
-	short unsigned int buf = 0;
+	unsigned short int buf = 0;
 
 	*cmdStruc_pt.cmd = readChar();
 

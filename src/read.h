@@ -16,13 +16,13 @@
 // - m: specification for the command
 typedef struct{
   char cmd;
-  short unsigned int x1;
-  short unsigned int x2;
-  short unsigned int y1;
-  short unsigned int y2;
-  short unsigned int dx;
-  short unsigned int dy;
-  short unsigned int m;
+  unsigned short int x1;
+  unsigned short int x2;
+  unsigned short int y1;
+  unsigned short int y2;
+  unsigned short int dx;
+  unsigned short int dy;
+  unsigned short int m;
 } basicCmd;
 
 // readChar() 
