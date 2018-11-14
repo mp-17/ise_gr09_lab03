@@ -2,7 +2,8 @@
 #define POINT 'P'
 #define LINE 'L'
 #define ELLIPSE 'E'
-#define QUIT 'Q'
+#define xMax 128
+#define yMax 128
 
 // basicCmd contains
 // - cmd: the letter which encodes the command
@@ -15,17 +16,40 @@
 // - m: specification for the command
 typedef struct{
   char cmd;
-  int x1;
-  int x2;
-  int y1;
-  int y2;
-  int dx;
-  int dy;
-  int m;
+  short unsigned int x1;
+  short unsigned int x2;
+  short unsigned int y1;
+  short unsigned int y2;
+  short unsigned int dx;
+  short unsigned int dy;
+  short unsigned int m;
 } basicCmd;
 
-// readChar reads from a peripheral input and returns a single char
-char readChar();
+// readChar() 
+// reads from a peripheral input and returns a single char
+//
+// OUTPUT
+// returns one read char from the stdin
+// CALLED FUNCTIONS
+// - getc
+// MEMORY MODIFICATION
+// no memory modification
+char readChar(void);
+
+// readChar2Int() 
+// reads from a peripheral input an ASCII/UTF char and returns the corresponding digit. If the char was not representing 
+// a digit, it returns 10
+//
+// OUTPUT
+// returns the digit which was represented in ASCII/UTF. If something goes wrong (i.e. the char was not a digit), 
+// it returns 10 
+// CALLED FUNCTIONS
+// - readChar()
+// MEMORY NEEDS
+// it needs 16 bits for a short int variable
+// MEMORY MODIFICATION
+// no memory modification
+short int readChar2Int(void);
 
 // readCommand()
 // it reads characters from the input peripheral, decodes a single command and updates a structure passed as a parameter.
@@ -36,6 +60,8 @@ char readChar();
 // - returns 0 if no error, otherwise it returns 1
 // CALLED FUNCTIONS
 // - readChar()
+// MEMORY NEEDS
+// it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // - *basicCommand memory locations
-int readCommand(basicCmd* cmdStruc_pt);
+short int readCommand(basicCmd* cmdStruc_pt);
