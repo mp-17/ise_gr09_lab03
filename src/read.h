@@ -1,4 +1,3 @@
-#include "read.h"
 #define POINT 'P'
 #define LINE 'L'
 #define ELLIPSE 'E'

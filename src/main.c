@@ -10,10 +10,10 @@
 // there is a special command to quit the program.
 // main returns 0 if no errors occured, otherwise it returns 1
 
-int main(int argc, char *argv[])
+int main(int argc, char** argv)
 {
 	char frameBuffer[rowsFrame][colsFrame];
-	bool end_flag = 0;
+	_Bool end_flag = 0;
 	basicCmd cmdStruct;
 
 	while(!end_flag) {
