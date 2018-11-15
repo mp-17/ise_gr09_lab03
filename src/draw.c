@@ -1,7 +1,38 @@
 #include "draw.h"
 
+//drawPoint()
+//DESCRIPTION
+//  Draw a point in the frameBuffer
+//  It receives two coordinates x y in the 0-127 range
+//  It receives the draw mode m from the caller
+//OUTPUT
+//  If the draw mode is correct i.e. 0 1 2
+//  0 is returned as a successful operation
+//  otherwise 1 is asserted
+//MEMORY NEEDS
+//  a local variable is used to determine which bit
+//  is going to be changed in the desired Byte block
+//MEMORY MODIFICATION
+//  a global variable frameBuffer is modified to draw the point
+
 int drawPoint(int x, int y, int m){
-  
+  int nBit= x%8;
+
+  if(m == DRAW_MODE_CLEAR){
+    frameBuffer[127-y][x/8] &= ~(0x01 << nBit);
+    return 0;
+  }
+  else if(m == DRAW_MODE_SET){
+    frameBuffer[127-y][x/8] |= 0x01 << (nBit);
+    return 0;
+  } 
+  else if(m == DRAW_MODE_XOR){
+    frameBuffer[127-y][x/8] ^= (0x01 << (nBit));
+    return 0;
+  }
+  else{
+    return 1;
+  }
 }
 
 //drawLine ()
