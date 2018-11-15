@@ -14,6 +14,7 @@ char frameBuffer[rowsFrame][colsFrame]={{0}};
 
 int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m);
 void printWord(char word);
+int abs(int num);
 
 int main(int argc, char *argv[]){
   int i,j;
@@ -41,13 +42,9 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
   int i,j;
   char startPoint;
   
-  dj=x2-x1;
-  di=y2-y1;
+  dj=abs(x2-x1);
+  di=abs(y2-y1);
   eps=di-dj;
-  
-  //TBSTART
-  printf("%d %d %d\n",dj,di,eps);
-  //TBEND
   
   if (x1>x2){
     maxX=x1;
@@ -61,10 +58,6 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
     i=y1;
     startPoint='1';
   }
-  //TBSTART
-  printf("%d %d %d %c\n",j,i,maxX,startPoint);
-  int cnt=0;
-  //TBEND
   while (j<maxX+1) {
     switch (m) {
       case DRAW_MODE_CLEAR: {
@@ -81,15 +74,9 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
       }
     }
     if (eps>=0){
-      //TBSTART
-      printf("halo");
-      //TBSTART
       if (startPoint=='1'){
 	if (y1>y2){
 	  i--;
-	  //TBSTART
-	  printf("halo");
-	  //TBSTART
 	}
 	else
 	  i++;
@@ -105,9 +92,6 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
     j++;
     eps+=di;
   }
-  //TBSTART
-  printf("%d\n",cnt );
-  //TBEND
   return 0;
 }
 
@@ -121,4 +105,10 @@ void printWord(char word){
     printf("%d", num/(int)pow(BASE,i));
     num=num%(int)pow(BASE,i);
   }
+}
+int abs(int num){
+  if (num<0)
+    return -num;
+  else
+    return num;
 }

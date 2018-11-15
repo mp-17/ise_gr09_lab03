@@ -44,7 +44,7 @@ int drawPoint(int x, int y, int m){
 //           0 for drawing success
 //           1 for errors
 //MEMORY NEEDS
-//   6*regular int
+//   6*int + 1*char
 //MEMORY MODIFICATIONS
 //   Modify the global matrix called frameBuffer
 
@@ -55,8 +55,8 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
   int i,j;
   char startPoint;
   
-  dj=x2-x1;
-  di=y2-y1;
+  dj=abs(x2-x1);
+  di=abs(y2-y1);
   eps=di-dj;
   
   if (x1>x2){
@@ -109,4 +109,12 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
 
 int drawEclipse(int xc, int yc, int dx, int dy, int m){
 
+}
+
+
+int abs(int num){
+  if (num<0)
+    return -num;
+  else
+    return num;
 }
