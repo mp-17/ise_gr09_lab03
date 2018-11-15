@@ -49,39 +49,62 @@ int drawPoint(int x, int y, int m){
 //   Modify the global matrix called frameBuffer
 
 int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m){
-  if (x1 > rowsFrame || x2 > rowsFrame || y1 > colsFrame  || y2 > colsFrame)
+  if ((x1 > (colsFrame*wordPixels-1)) || (x2 > (colsFrame*wordPixels-1)) || (y1 > (rowsFrame-1))  || (y2 > (rowsFrame-1)))
     return 1;
-  int dx,dy,eps,maxx;
+  int di,dj,eps,maxX;
   int i,j;
+  char startPoint;
   
-  dx=x2-x1;
-  dy=y2-y1;
-  eps=dy-dx;
+  dj=x2-x1;
+  di=y2-y1;
+  eps=di-dj;
   
-  if (x1>x2)
-    maxx=x1;
-  else
-    maxx=x2;
-
-  if (y1<y2)
-    j=y1;
-  else
-    j=y2;
-  i=maxx;
-  
-  while (i<maxx) {
+  if (x1>x2){
+    maxX=x1;
+    j=x2;
+    i=y2;
+    startPoint='2';
+  }
+  else{
+    maxX=x2;
+    j=x1;
+    i=y1;
+    startPoint='1';
+  }
+  while (j<maxX+1) {
     switch (m) {
-      
-      case DRAW_MODE_CLEAR:
-	frameBuffer[(colsFrame*8)/i][j]=frameBuffer[(colsFrame*8)/i][j]
+      case DRAW_MODE_CLEAR: {
+	frameBuffer[rowsFrame-1-i][j/8] &= ~(0x01<<(wordPixels-j%wordPixels-1));
+	break;
+      }
+      case DRAW_MODE_SET: {
+	frameBuffer[rowsFrame-1-i][j/8] |= (0x01<<(wordPixels-j%wordPixels-1));
+	break;
+      }
+      case DRAW_MODE_XOR: {
+	frameBuffer[rowsFrame-1-i][j/8] ^= (0x01<<(wordPixels-j%wordPixels-1));
+	break;
+      }
     }
     if (eps>=0){
-      j++;
-      eps-=dx;
+      if (startPoint=='1'){
+	if (y1>y2)
+	  i--;
+	else
+	  i++;
+      }
+      else{
+	 if (y2>y1)
+	   i--;
+         else
+	   i++;
+      }
+      eps-=dj;
     }
-    i++;
-    eps+=dy;
+    j++;
+    eps+=di;
   }
+  return 0;
 }
 
 int drawEclipse(int xc, int yc, int dx, int dy, int m){
