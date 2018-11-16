@@ -119,21 +119,16 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
 //OUTPUT
 //  It returns 0
 //MEMORY NEEDS
-//  it employs nine local variables
+//  it employs five local variables
 //MEMORY MODIFICATION
 //  It accesses and modifies frameBuffer to draw the ellipse
 
 int drawEllipse(int xc, int yc, int dx, int dy, int m){
-    width = dy/2; //width is the vertical half diameter of the ellipse
-    height = dx/2; //height is the horizontal half diameter of the ellipse
-    int a2 = width * width;
-    int b2 = height * height;
-    int fa2 = 4 * a2, fb2 = 4 * b2;
     int x, y, sigma;
     int x_last, y_last;
     //BRESENHAM ALGORITHM - START
     //Writing the vertical parts  of ellipse - start
-    for (x = 0, y = height, sigma = 2*b2+a2*(1-2*height); b2*x <= a2*y; x++)
+    for (x = 0, y = dx/2, sigma = 2*(dx/2 * dx/2)+(dy/2 * dy/2)*(1-2*dx/2); (dx/2 * dx/2)*x <= (dy/2 * dy/2)*y; x++)
     {
 
         
@@ -223,14 +218,14 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 
         if (sigma >= 0)
         {
-            sigma += fa2 * (1 - y);
+            sigma += 4 * (dy/2 * dy/2) * (1 - y);
             y--;
         }
-        sigma += b2 * ((4 * x) + 6);
+        sigma += (dx/2 * dx/2) * ((4 * x) + 6);
     }
 
     //Writing the horizontal parts of ellipse - start
-    for (x = width, y = 0, sigma = 2*a2+b2*(1-2*width); a2*y <= b2*x; y++)
+    for (x = dy/2, y = 0, sigma = 2*(dy/2 * dy/2)+(dx/2 * dx/2)*(1-2*dy/2); (dy/2 * dy/2)*y <= (dx/2 * dx/2)*x; y++)
     {
       if (x!=x_last || y!=y_last){ //Bresenham's algorithm second correction: we don't want to overwrite pixels of vertical and horizontal parts
         if ((yc+x)>=0 && (yc+x)<=N)
@@ -318,11 +313,12 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 
         if (sigma >= 0)
         {
-            sigma += fb2 * (1 - x);
+	  sigma += 4 * (dx/2 * dx/2) * (1 - x);
             x--;
         }
-        sigma += a2 * ((4 * y) + 6);
+        sigma += (dy/2 * dy/2) * ((4 * y) + 6);
     }
+
     return 0;
 }
 
