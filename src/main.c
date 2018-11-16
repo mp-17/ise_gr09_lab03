@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 			cmdBuffer[i-1] = cmdBuffer[i];
 		}
 		// read the new character
-		cmdBuffer[0] = readChar();
+		cmdBuffer[maxCmdLength-1] = readChar();
 		// if there is a valid command in the buffer, execute it. Otherwise, loop
 		if ( readCommand(cmdBuffer, &cmdStruct) ) {
 			switch (cmdStruct.cmd) {
