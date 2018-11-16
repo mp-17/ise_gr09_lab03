@@ -16,6 +16,7 @@ int main(int argc, char** argv)
 	unsigned short int i = 0;
 	char cmdBuffer[maxCmdLength];
 	basicCmd cmdStruct;
+	_Bool end_flag = 0;
 
 	// reset the buffer with harmless characters
 	for (i = 0; i < maxCmdLength; i++) {
@@ -30,61 +31,80 @@ int main(int argc, char** argv)
 	printf("Where 'x1', 'x2, 'y1', 'y2' are numbes from 0 to 127, and 'm' is a number between 0 and 2.\n");
 	printf("Simply digit it, there's no need for pressing enter\n");
 
-	// main reading loop
 	while (1) {
-		// right shift the elements in the buffer
-		for (i = 1; i < maxCmdLength; i++) {
-			cmdBuffer[i-1] = cmdBuffer[i];
+		printf("Insert 'p' if you want to print the matrix. Otherwise insert another character.\n");
+		if (readChar() == 'p') {
+			for (i=0;i<rowsFrame;i++) {
+   				for (j=0;j<colsFrame;j++) {
+       				printWord(frameBuffer[i][j]);
+            	}
+  					printf("\n");
+  				}
 		}
-		// read the new character
-		cmdBuffer[maxCmdLength-1] = readChar();
-		// if there is a valid command in the buffer, execute it. Otherwise, loop
-		if ( readCommand(cmdBuffer, &cmdStruct) ) {
-			switch (cmdStruct.cmd) {
-		  	case POINT:
-		  		//drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
-		  		printf("Congratulations! You selected POINT command.\n");
-		  		printf("cmd: %c\n", cmdStruct.cmd);
-		  		printf("x1: %d\n", cmdStruct.x1);
-		  		printf("y1: %d\n", cmdStruct.y1);
-		  		printf("x2: %d\n", cmdStruct.x2);
-		  		printf("y2: %d\n", cmdStruct.y2);
-				printf("dx: %d\n", cmdStruct.dx);
-		  		printf("dy: %d\n", cmdStruct.dy);
-		  		printf("m: %d\n", cmdStruct.m);
-		  	break;
-		  	case LINE:
-		  		//drawLine(cmdStruct.x1, cmdStruct.x2, cmdStruct.y1, cmdStruct.y2, cmdStruct.m);
-		  		printf("Congratulations! You selected LINE command.\n");
-		  		printf("cmd: %c\n", cmdStruct.cmd);
-		  		printf("x1: %d\n", cmdStruct.x1);
-		  		printf("y1: %d\n", cmdStruct.y1);
-		  		printf("x2: %d\n", cmdStruct.x2);
-		  		printf("y2: %d\n", cmdStruct.y2);
-				printf("dx: %d\n", cmdStruct.dx);
-		  		printf("dy: %d\n", cmdStruct.dy);
-		  		printf("m: %d\n", cmdStruct.m);
-		  	break;
-		  	case ELLIPSE:
-		  		//drawEllipse(cmdStruct.x1, cmdStruct.y1, cmdStruct.dx, cmdStruct.dy, cmdStruct.m);
-		  		printf("Congratulations! You selected ELLIPSE command.\n");
-		  		printf("cmd: %c\n", cmdStruct.cmd);
-		  		printf("x1: %d\n", cmdStruct.x1);
-		  		printf("y1: %d\n", cmdStruct.y1);
-		  		printf("x2: %d\n", cmdStruct.x2);
-		  		printf("y2: %d\n", cmdStruct.y2);
-				printf("dx: %d\n", cmdStruct.dx);
-		  		printf("dy: %d\n", cmdStruct.dy);
-		  		printf("m: %d\n", cmdStruct.m);
-		  	break;
-		  	break;
-		  	default:
-		  		// error: the readCommand has returned a boolean 1 but the cmd field in the struct 
-		  		// is not coherent with a valid command
-		  		return 1;
-		  	break;
-		  	} 
+		else {
+			printf("Now insert the commands you want to execute.");
+			// main reading loop
+			while (!end_flag) {
+				end_flag = 0;
+				// right shift the elements in the buffer
+				for (i = 1; i < maxCmdLength; i++) {
+					cmdBuffer[i-1] = cmdBuffer[i];
+				}
+				// read the new character
+				cmdBuffer[maxCmdLength-1] = readChar();
+				// if there is a valid command in the buffer, execute it. Otherwise, loop
+				if ( readCommand(cmdBuffer, &cmdStruct) ) {
+					switch (cmdStruct.cmd) {
+				  	case POINT:
+				  		//drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
+				  		printf("Congratulations! You selected POINT command.\n");
+				  		printf("cmd: %c\n", cmdStruct.cmd);
+				  		printf("x1: %d\n", cmdStruct.x1);
+				  		printf("y1: %d\n", cmdStruct.y1);
+				  		printf("x2: %d\n", cmdStruct.x2);
+				  		printf("y2: %d\n", cmdStruct.y2);
+						printf("dx: %d\n", cmdStruct.dx);
+				  		printf("dy: %d\n", cmdStruct.dy);
+				  		printf("m: %d\n", cmdStruct.m);
+				    	end_flag = 1;
+				  	break;
+				  	case LINE:
+				  		//drawLine(cmdStruct.x1, cmdStruct.x2, cmdStruct.y1, cmdStruct.y2, cmdStruct.m);
+				  		printf("Congratulations! You selected LINE command.\n");
+				  		printf("cmd: %c\n", cmdStruct.cmd);
+				  		printf("x1: %d\n", cmdStruct.x1);
+				  		printf("y1: %d\n", cmdStruct.y1);
+				  		printf("x2: %d\n", cmdStruct.x2);
+				  		printf("y2: %d\n", cmdStruct.y2);
+						printf("dx: %d\n", cmdStruct.dx);
+				  		printf("dy: %d\n", cmdStruct.dy);
+				  		printf("m: %d\n", cmdStruct.m);
+				  		end_flag = 1;
+				  	break;
+				  	case ELLIPSE:
+				  		//drawEllipse(cmdStruct.x1, cmdStruct.y1, cmdStruct.dx, cmdStruct.dy, cmdStruct.m);
+				  		printf("Congratulations! You selected ELLIPSE command.\n");
+				  		printf("cmd: %c\n", cmdStruct.cmd);
+				  		printf("x1: %d\n", cmdStruct.x1);
+				  		printf("y1: %d\n", cmdStruct.y1);
+				  		printf("x2: %d\n", cmdStruct.x2);
+				  		printf("y2: %d\n", cmdStruct.y2);
+						printf("dx: %d\n", cmdStruct.dx);
+				  		printf("dy: %d\n", cmdStruct.dy);
+				  		printf("m: %d\n", cmdStruct.m);
+				  		end_flag = 1;
+				  	break;
+				  	break;
+				  	default:
+				  		// error: the readCommand has returned a boolean 1 but the cmd field in the struct 
+				  		// is not coherent with a valid command
+				  		return 1;
+				  	break;
+				  	} 
+				}
+			}
 		}
+		
 	}
 
 	return 0;
