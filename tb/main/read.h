@@ -1,8 +1,9 @@
 #define POINT 'P'
 #define LINE 'L'
 #define ELLIPSE 'E'
-#define minCmdOffset 7
+#define minCmdLength 8
 #define maxCmdLength 14
+#define minCmdOffset 6 // maxCmdLength-minCmdLength
 #define xMax 127
 #define yMax 127
 

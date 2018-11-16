@@ -14,7 +14,6 @@ int main(int argc, char** argv)
 {
 	// variable definitions
 	unsigned short int i = 0;
-	char frameBuffer[rowsFrame][colsFrame];
 	char cmdBuffer[maxCmdLength];
 	basicCmd cmdStruct;
 
@@ -47,8 +46,8 @@ int main(int argc, char** argv)
 		  		printf("Congratulations! You selected POINT command.\n");
 		  		printf("cmd: %c\n", cmdStruct.cmd);
 		  		printf("x1: %d\n", cmdStruct.x1);
-		  		printf("y1: %d\n", cmdStruct.x2);
-		  		printf("x2: %d\n", cmdStruct.y1);
+		  		printf("y1: %d\n", cmdStruct.y1);
+		  		printf("x2: %d\n", cmdStruct.x2);
 		  		printf("y2: %d\n", cmdStruct.y2);
 				printf("dx: %d\n", cmdStruct.dx);
 		  		printf("dy: %d\n", cmdStruct.dy);
@@ -59,8 +58,8 @@ int main(int argc, char** argv)
 		  		printf("Congratulations! You selected LINE command.\n");
 		  		printf("cmd: %c\n", cmdStruct.cmd);
 		  		printf("x1: %d\n", cmdStruct.x1);
-		  		printf("y1: %d\n", cmdStruct.x2);
-		  		printf("x2: %d\n", cmdStruct.y1);
+		  		printf("y1: %d\n", cmdStruct.y1);
+		  		printf("x2: %d\n", cmdStruct.x2);
 		  		printf("y2: %d\n", cmdStruct.y2);
 				printf("dx: %d\n", cmdStruct.dx);
 		  		printf("dy: %d\n", cmdStruct.dy);
@@ -71,8 +70,8 @@ int main(int argc, char** argv)
 		  		printf("Congratulations! You selected ELLIPSE command.\n");
 		  		printf("cmd: %c\n", cmdStruct.cmd);
 		  		printf("x1: %d\n", cmdStruct.x1);
-		  		printf("y1: %d\n", cmdStruct.x2);
-		  		printf("x2: %d\n", cmdStruct.y1);
+		  		printf("y1: %d\n", cmdStruct.y1);
+		  		printf("x2: %d\n", cmdStruct.x2);
 		  		printf("y2: %d\n", cmdStruct.y2);
 				printf("dx: %d\n", cmdStruct.dx);
 		  		printf("dy: %d\n", cmdStruct.dy);

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "shared.h"
 #include "read.h"
 #include "draw.h"
 
@@ -15,7 +14,6 @@ int main(int argc, char** argv)
 {
 	// variable definitions
 	unsigned short int i = 0;
-	char frameBuffer[rowsFrame][colsFrame];
 	char cmdBuffer[maxCmdLength];
 	basicCmd cmdStruct;
 
@@ -23,6 +21,8 @@ int main(int argc, char** argv)
 	for (i = 0; i < maxCmdLength; i++) {
 		cmdBuffer[i] = '\0';
 	}
+
+	// memory has already been reset because it's a global variable 
 
 	// main reading loop
 	while (1) {

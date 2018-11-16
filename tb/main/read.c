@@ -52,7 +52,7 @@ short int char2int(char charIn) {
 // - readChar()
 // MEMORY NEEDS
 // - it needs 16 bits for a short int variable
-// - the passed array has to be at least max{14 positions, minCmdOffset+7 positions} long
+// - the passed array has to be at least max{14 positions, minCmdLength+7 positions} long
 // MEMORY MODIFICATION
 // - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
 _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
@@ -68,9 +68,6 @@ _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 		(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[minCmdOffset+6]);
 		(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdOffset+7]);
 		if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).m < 3) ) {
-			for (int i = 0; i < maxCmdLength; i++) {
-				printf("%c", cmdBuffer[i]);
-			}
 			return 0;
 		}
 		else {
@@ -126,5 +123,6 @@ _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 				break;
 		}
 	}
+
 	return 1;
 }

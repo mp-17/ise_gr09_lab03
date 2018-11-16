@@ -59,19 +59,19 @@ _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 
 	unsigned short int calcBuf = 0;
 
-	if (cmdBuffer[minCmdLength-1] == POINT) {
-		calcBuf = char2int(cmdBuffer[minCmdLength])*100;
-		calcBuf += char2int(cmdBuffer[minCmdLength+1])*10;
-		(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[minCmdLength+2]);
-		calcBuf = char2int(cmdBuffer[minCmdLength+3])*100;
-		calcBuf += char2int(cmdBuffer[minCmdLength+4])*10;
-		(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[minCmdLength+5]);
-		(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdLength+6]);
+	if (cmdBuffer[minCmdOffset] == POINT) {
+		calcBuf = char2int(cmdBuffer[minCmdOffset+1])*100;
+		calcBuf += char2int(cmdBuffer[minCmdOffset+2])*10;
+		(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[minCmdOffset+3]);
+		calcBuf = char2int(cmdBuffer[minCmdOffset+4])*100;
+		calcBuf += char2int(cmdBuffer[minCmdOffset+5])*10;
+		(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[minCmdOffset+6]);
+		(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdOffset+7]);
 		if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).m < 3) ) {
 			return 0;
 		}
 		else {
-			(*cmdStruc_pt).cmd = cmdBuffer[minCmdLength-1];
+			(*cmdStruc_pt).cmd = cmdBuffer[minCmdOffset];
 		}
 	}
 	else {
