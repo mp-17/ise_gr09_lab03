@@ -123,7 +123,7 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
 //MEMORY MODIFICATION
 //  It accesses and modifies frameBuffer to draw the ellipse
 
-int drawEclipse(int xc, int yc, int dx, int dy, int m){
+int drawEllipse(int xc, int yc, int dx, int dy, int m){
     width = dy/2; //width is the vertical half diameter of the ellipse
     height = dx/2; //height is the horizontal half diameter of the ellipse
     int a2 = width * width;
