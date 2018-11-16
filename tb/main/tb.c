@@ -1,5 +1,5 @@
 #include "tb.h"
-#include "shared.h"
+
 
 void printWord(char word){
   int i;
@@ -11,3 +11,4 @@ void printWord(char word){
     printf("%d", num/(int)pow(BASE,i));
     num=num%(int)pow(BASE,i);
   }
+}
