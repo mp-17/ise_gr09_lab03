@@ -44,7 +44,11 @@ int main(int argc, char** argv)
       }
     }
     else {
-      printf("Now insert the commands you want to execute.");
+      printf("Do you wish to reset the end_flag? if yes, digit 'Y'. If not, digit another character.\n");
+      if (readChar() == 'Y') {
+	end_flag = 0;
+      }
+      printf("Now insert the commands you want to execute.\n");
       // main reading loop
       while (!end_flag) {
 	end_flag = 0;
@@ -84,7 +88,7 @@ int main(int argc, char** argv)
 	    end_flag = 1;
 	    break;
 	  case ELLIPSE:
-	    //drawEllipse(cmdStruct.x1, cmdStruct.y1, cmdStruct.dx, cmdStruct.dy, cmdStruct.m);
+	    drawEllipse(cmdStruct.x1, cmdStruct.y1, cmdStruct.dx, cmdStruct.dy, cmdStruct.m);
 	    printf("Congratulations! You selected ELLIPSE command.\n");
 	    printf("cmd: %c\n", cmdStruct.cmd);
 	    printf("x1: %d\n", cmdStruct.x1);
