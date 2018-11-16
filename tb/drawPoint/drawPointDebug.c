@@ -13,7 +13,7 @@ void printBuffer();
 //return 0 if the drawing is successful
 int main(int argc, char** argv){
   int a;
-  a = DrawPoint(123, 0, 2);
+  a = DrawPoint(15,0,1);
   return a;
 }
 
@@ -21,7 +21,7 @@ int DrawPoint(int x, int y, int m)
 {
   for(int i=0; i<128; i++){
     for(int j=0; j<16; j++){
-      frameBuffer[i][j] = '1';
+      frameBuffer[i][j] = '\0';
     }
   }
   //local variable to set the n bit to change
@@ -32,7 +32,7 @@ int DrawPoint(int x, int y, int m)
     // then an AND bitwise operation is done with the
     // wanted Byte to set to 0 the n bit
     // the n bit is the remainder of x/8
-    frameBuffer[127-y][x/8] &= ~(0x01 << nBit);
+    frameBuffer[127-y][x/8] &= ~(0x01<<(7-nBit));
     printBuffer();
     
     return 0;
@@ -41,7 +41,7 @@ int DrawPoint(int x, int y, int m)
     // using the OR bitwise operation with
     // 0000 0001 a bit can be set to 1
     // the remainder of x/8 is the bit to set
-    frameBuffer[127-y][x/8] |= 0x01 << (nBit);
+    frameBuffer[127-y][x/8] |= 0x01<<(7-nBit);
     printBuffer();
       
     return 0;
@@ -50,7 +50,7 @@ int DrawPoint(int x, int y, int m)
     // using the XOR bitwise operation the n bit
     // is toggled
     // the n bit is the remainder of x/8
-    frameBuffer[127-y][x/8] ^= (0x01 << (nBit));
+    frameBuffer[127-y][x/8] ^= 0x01<<(7-nBit);
     printBuffer();
     
     return 0;
@@ -65,7 +65,10 @@ void printBuffer(){
   for(int i=0; i<128; i++){
     printf("%d ",127-i);
     for(int j=0; j<16; j++){
-      printf("%c ", frameBuffer[i][j]);
+      for(int k=0; k<8; k++){
+	printf("%d", !!(frameBuffer[i][j] & (1 << (7 - k))));
+      }
+      printf(" ");
     }
     printf("\n");
   }
