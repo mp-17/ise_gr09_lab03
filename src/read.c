@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "read.h"
 
-// readChar() 
+// readChar(void) 
 // reads from a peripheral input and returns a single char
 //
 // OUTPUT
@@ -14,105 +14,115 @@ char readChar(void) {
 	return getc(stdin);
 };
 
-// readChar2Int() 
-// reads from a peripheral input an ASCII/UTF char and returns the corresponding digit. If the char was not representing 
+// char2int(char charIn) 
+// reads from input an ASCII/UTF char and returns the corresponding digit in short int format. If the char was not representing 
 // a digit, it returns 10
 //
 // OUTPUT
 // returns the digit which was represented in ASCII/UTF. If something goes wrong (i.e. the char was not a digit), 
 // it returns 10 
 // CALLED FUNCTIONS
-// - readChar()
+// no function is called
 // MEMORY NEEDS
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // no memory modification
-short int readChar2Int(void) {
+short int char2int(char charIn) {
 
-	unsigned short int digit = 0;
+	unsigned short int digitOut = 0;
 
-	digit = (int)readChar() - '0';
+	digitOut = (int)charIn - '0';
 
-	if (digit >= 0 && digit <= 9) {
-		return digit;
-	}
-	else {
+	if (digitOut > 9) {
 		return 10;
 	}
 
+	return digitOut;
 }
 
-// readCommand()
-// it reads characters from the input peripheral, decodes a single command and updates a structure passed as a parameter.
+// readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt)
+// it reads an array in which a command can be present. If a valid command is recognized then the data structure is updated coherently
 //
 // INPUT
-// - cmdStruc_pt : pointer to basicCommand struct type (this struct has to be instantiated by the caller).
+// - cmdBuffer: the buffer array in which char from input peripheral are stored. The length of cmdBuffer allows it to contain a valid command.
+// - cmdStruc_pt: pointer to basicCommand struct type (this struct has to be instantiated by the caller).
 // OUTPUT
-// - returns 0 if no error, otherwise it returns 1
+// - returns a boolean 1 if a valid command is read, otherwise it returns a boolean 0
 // CALLED FUNCTIONS
 // - readChar()
 // MEMORY NEEDS
-// it needs 16 bits for a short int variable
+// - it needs 16 bits for a short int variable
+// - the passed array has to be at least max{14 positions, minCmdLength+7 positions} long
 // MEMORY MODIFICATION
-// - *basicCommand memory locations
-short int readCommand(basicCmd* cmdStruc_pt) {
+// - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
+_Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 
-	unsigned short int buf = 0;
+	unsigned short int calcBuf = 0;
 
-	*cmdStruc_pt.cmd = readChar();
-
-	switch (*cmdStruc_pt.cmd) {
-		case POINT:
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.x1 = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.y1 = buf + readChar2Int();
-			*cmdStruc_pt.m = readChar2Int();
-			if ( !(*cmdStruc_pt.x1 <= xMax && *cmdStruc_pt.y1 <= yMax && *cmdStruc_pt.m < 3) ) {
-				return 1;
-			}
-			break;
-		case LINE:
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.x1 = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.y1 = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.x2 = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.y2 = buf + readChar2Int();
-			*cmdStruc_pt.m = readChar2Int();
-			if ( !(*cmdStruc_pt.x1 <= xMax && *cmdStruc_pt.y1 <= yMax && *cmdStruc_pt.x2 <= xMax && *cmdStruc_pt.y2 <= yMax && *cmdStruc_pt.m < 3) ) {
-				return 1;
-			}
-			break;
-		case ELLIPSE:
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.x1 = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.y1 = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.dx = buf + readChar2Int();
-			buf = readChar2Int()*100;
-			buf += readChar2Int()*10;
-			*cmdStruc_pt.dy = buf + readChar2Int();
-			*cmdStruc_pt.m = readChar2Int();
-			if ( !(*cmdStruc_pt.x1 <= xMax && *cmdStruc_pt.y1 <= yMax && *cmdStruc_pt.dx <= xMax && *cmdStruc_pt.dy <= yMax && *cmdStruc_pt.m < 3) ) {
-				return 1;
-			}
-			break;
-		default: 
-			return 1;
-			break;
+	if (cmdBuffer[minCmdLength-1] == POINT) {
+		calcBuf = char2int(cmdBuffer[minCmdLength])*100;
+		calcBuf += char2int(cmdBuffer[minCmdLength+1])*10;
+		(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[minCmdLength+2]);
+		calcBuf = char2int(cmdBuffer[minCmdLength+3])*100;
+		calcBuf += char2int(cmdBuffer[minCmdLength+4])*10;
+		(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[minCmdLength+5]);
+		(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdLength+6]);
+		if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).m < 3) ) {
+			return 0;
+		}
+		else {
+			(*cmdStruc_pt).cmd = cmdBuffer[minCmdLength-1];
+		}
 	}
-	return 0;
-};
+	else {
+		switch (cmdBuffer[0]) {
+			case LINE:
+				calcBuf = char2int(cmdBuffer[1])*100;
+				calcBuf += char2int(cmdBuffer[2])*10;
+				(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[3]);
+				calcBuf = char2int(cmdBuffer[4])*100;
+				calcBuf += char2int(cmdBuffer[5])*10;
+				(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[6]);
+				calcBuf = char2int(cmdBuffer[7])*100;
+				calcBuf += char2int(cmdBuffer[8])*10;
+				(*cmdStruc_pt).x2 = calcBuf + char2int(cmdBuffer[9]);
+				calcBuf = char2int(cmdBuffer[10])*100;
+				calcBuf += char2int(cmdBuffer[11])*10;
+				(*cmdStruc_pt).y2 = calcBuf + char2int(cmdBuffer[12]);
+				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
+				if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).x2 <= xMax && (*cmdStruc_pt).y2 <= yMax && (*cmdStruc_pt).m < 3) ) {
+					return 0;
+				}
+				else {
+					(*cmdStruc_pt).cmd = cmdBuffer[0];
+				}
+				break;
+			case ELLIPSE:
+				calcBuf = char2int(cmdBuffer[1])*100;
+				calcBuf += char2int(cmdBuffer[2])*10;
+				(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[3]);
+				calcBuf = char2int(cmdBuffer[4])*100;
+				calcBuf += char2int(cmdBuffer[5])*10;
+				(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[6]);
+				calcBuf = char2int(cmdBuffer[7])*100;
+				calcBuf += char2int(cmdBuffer[8])*10;
+				(*cmdStruc_pt).dx = calcBuf + char2int(cmdBuffer[9]);
+				calcBuf = char2int(cmdBuffer[10])*100;
+				calcBuf += char2int(cmdBuffer[11])*10;
+				(*cmdStruc_pt).dy = calcBuf + char2int(cmdBuffer[12]);
+				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
+				if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).dx <= xMax && (*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) ) {
+					return 0;
+				}
+				else {
+					(*cmdStruc_pt).cmd = cmdBuffer[0];
+				}
+				break;
+			default: 
+				return 0;
+				break;
+		}
+	}
+
+	return 1;
+}

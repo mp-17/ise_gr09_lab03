@@ -1,6 +1,8 @@
 #define POINT 'P'
 #define LINE 'L'
 #define ELLIPSE 'E'
+#define minCmdOffset 7
+#define maxCmdLength 14
 #define xMax 127
 #define yMax 127
 
@@ -24,43 +26,44 @@ typedef struct{
   unsigned short int m;
 } basicCmd;
 
-// readChar() 
+// readChar(void) 
 // reads from a peripheral input and returns a single char
 //
 // OUTPUT
-// returns one read char from the stdin
+// returns one read char
 // CALLED FUNCTIONS
 // - getc
 // MEMORY MODIFICATION
 // no memory modification
 char readChar(void);
 
-// readChar2Int() 
-// reads from a peripheral input an ASCII/UTF char and returns the corresponding digit. If the char was not representing 
+// char2int(char charIn) 
+// reads from input an ASCII/UTF char and returns the corresponding digit in short int format. If the char was not representing 
 // a digit, it returns 10
 //
 // OUTPUT
 // returns the digit which was represented in ASCII/UTF. If something goes wrong (i.e. the char was not a digit), 
 // it returns 10 
 // CALLED FUNCTIONS
-// - readChar()
+// no function is called
 // MEMORY NEEDS
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // no memory modification
-short int readChar2Int(void);
+short int char2int(char charIn);
 
-// readCommand()
-// it reads characters from the input peripheral, decodes a single command and updates a structure passed as a parameter.
+// readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt)
+// it reads an array in which a command can be present. If a valid command is recognized then the data structure is updated coherently
 //
 // INPUT
-// - cmdStruc_pt : pointer to basicCommand struct type (this struct has to be instantiated by the caller).
+// - cmdBuffer: the buffer array in which char from input peripheral are stored. The length of cmdBuffer allows it to contain a valid command.
+// - cmdStruc_pt: pointer to basicCommand struct type (this struct has to be instantiated by the caller).
 // OUTPUT
-// - returns 0 if no error, otherwise it returns 1
+// - returns a boolean 1 if a valid command is read, otherwise it returns a boolean 0
 // CALLED FUNCTIONS
 // - readChar()
 // MEMORY NEEDS
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
-// - *basicCommand memory locations
-short int readCommand(basicCmd* cmdStruc_pt);
+// - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
+_Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt);
