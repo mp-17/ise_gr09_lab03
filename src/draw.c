@@ -107,8 +107,223 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
   return 0;
 }
 
-int drawEclipse(int xc, int yc, int dx, int dy, int m){
+//drawEllipse()
+//DESCRIPTION
+//  Draw an ellipse in the frameBuffer, an array of arrays of char corresponding to a virtual screen of pixels
+//  It receives as inputs:
+//  --xc and yc: they are the cartesian coordinates of the ellipse center
+//  --dx and dy: they are respectively the horizantal and vertical diameters of the ellipse
+//  --m : it is the draw mode of the function: if m=0, an ellipse is deleted on the screen; if m=1, an ellipse is drawn on the screen;
+//        if m=2, the pixels of the ellipse to draw are cleared or drawn according to their previous state: if they are already drawn, they are cleared and viceversa.
+//  WARNING: The parts of the ellipse to draw that fall out of the virtual screen, are not drawn.
+//OUTPUT
+//  It returns 0
+//MEMORY NEEDS
+//  it employs nine local variables
+//MEMORY MODIFICATION
+//  It accesses and modifies frameBuffer to draw the ellipse
 
+int drawEclipse(int xc, int yc, int dx, int dy, int m){
+    width = dy/2; //width is the vertical half diameter of the ellipse
+    height = dx/2; //height is the horizontal half diameter of the ellipse
+    int a2 = width * width;
+    int b2 = height * height;
+    int fa2 = 4 * a2, fb2 = 4 * b2;
+    int x, y, sigma;
+    int x_last, y_last;
+    //BRESENHAM ALGORITHM - START
+    //Writing the vertical parts  of ellipse - start
+    for (x = 0, y = height, sigma = 2*b2+a2*(1-2*height); b2*x <= a2*y; x++)
+    {
+
+        
+      if ((yc+x)>=0 && (yc+x)<=N) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
+        {
+            if ((xc+y)>=0 && (xc+y)<=N) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
+            {	
+	      if ((yc+x) != (yc-x)) { //Bresenham's algorithm first correction: we don't want write one pixel more than one time
+		  switch (m) {
+		  case 0 : //clear pixel
+		    frameBuffer[yc+x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    break;
+		  case 1 : //set pixel
+		    frameBuffer[yc+x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    break;
+		  case 2 : //xor pixel
+		    frameBuffer[yc+x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    break;
+		  default :
+		    break;
+		  }
+		}
+            }
+        }
+        if ((yc-x)>=0 && (yc-x)<=N)
+        {
+            if ((xc+y)>=0 && (xc+y)<=N)
+            {
+	      switch (m) {
+		  case 0 :
+		    frameBuffer[yc-x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc-x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc-x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    break;
+		  default :
+		    break;
+		  }
+            }
+        }
+        if ((yc+x)>=0 && (yc+x)<=N)
+        {
+            if ((xc-y)>=0 && (xc-y)<=N)
+            {
+                if ((yc-x) != (yc+x)) {
+		  switch (m) {
+		  case 0 :
+		    frameBuffer[yc+x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc+x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc+x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    break;
+		  default :
+		    break;
+		    }
+		}
+            }
+        }
+        if ((yc-x)>=0 && (yc-x)<=N)
+        {
+            if ((xc-y)>=0 && (xc-y)<=N)
+            {
+	      switch (m) {
+		  case 0 :
+		    frameBuffer[yc-x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc-x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc-x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    break;
+		  default :
+		    break;
+		    }
+            }
+        }
+        //writing the vertical part of ellipse - end
+	x_last=x; //The last value of x and y will be used to the second correction of Bresenham algorithm
+	y_last=y; //The last value of x and y will be used to the second correction of Bresenham algorithm
+
+        if (sigma >= 0)
+        {
+            sigma += fa2 * (1 - y);
+            y--;
+        }
+        sigma += b2 * ((4 * x) + 6);
+    }
+
+    //Writing the horizontal parts of ellipse - start
+    for (x = width, y = 0, sigma = 2*a2+b2*(1-2*width); a2*y <= b2*x; y++)
+    {
+      if (x!=x_last || y!=y_last){ //Bresenham's algorithm second correction: we don't want to overwrite pixels of vertical and horizontal parts
+        if ((yc+x)>=0 && (yc+x)<=N)
+        {
+            if ((xc+y)>=0 && (xc+y)<=N)
+            {
+                if ((xc+y) != (xc-y)) {
+		  switch (m) {
+		  case 0 :
+		    frameBuffer[yc+x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc+x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc+x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    break;
+		  default :
+		    break;
+		    }
+		}
+            }
+        }
+        if ((yc-x)>=0 && (yc-x)<=N)
+        {
+            if ((xc+y)>=0 && (xc+y)<=N)
+            {
+                if ((xc+y) != (xc-y)) {
+		  switch (m) {
+		  case 0 :
+		    frameBuffer[yc-x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc-x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc-x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    break;
+		  default :
+		    break;
+		    }
+		}
+            }
+        }
+        if ((yc+x)>=0 && (yc+x)<=N)
+        {
+            if ((xc-y)>=0 && (xc-y)<=N)
+            {
+	      switch (m) {
+		  case 0 :
+		    frameBuffer[yc+x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc+x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc+x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    break;
+		  default :
+		    break;
+		    }
+            }
+        }
+        if ((yc-x)>=0 && (yc-x)<=N)
+        {
+            if ((xc-y)>=0 && (xc-y)<=N)
+            {
+	      switch (m) {
+		  case 0 :
+		    frameBuffer[yc-x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    break;
+		  case 1 :
+		    frameBuffer[yc-x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    break;
+		  case 2 :
+		    frameBuffer[yc-x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    break;
+		  default :
+		    break;
+		    }
+            }
+        }
+      }
+        //writing the pixels - end
+
+        if (sigma >= 0)
+        {
+            sigma += fb2 * (1 - x);
+            x--;
+        }
+        sigma += a2 * ((4 * y) + 6);
+    }
+    return 0;
 }
 
 

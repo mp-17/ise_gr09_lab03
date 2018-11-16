@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "shared.h"
 #define N 127
+#define l 8
 
 //put here all the define
 //DRAWMODE DEFINE
