@@ -36,6 +36,8 @@ int main(int argc, char** argv)
   while (1) {
     printf("Insert 'p' if you want to print the matrix. Otherwise insert another character.\n");
     if (readChar() == 'p') {
+    	// flush the input buffer
+    	while (getchar() != '\n');
       for (i=0;i<rowsFrame;i++) {
 	for (j=0;j<colsFrame;j++) {
 	  printWord(frameBuffer[i][j]);
@@ -44,9 +46,13 @@ int main(int argc, char** argv)
       }
     }
     else {
+    	// flush the input buffer
+    	while (getchar() != '\n');
       printf("Do you wish to reset the end_flag? if yes, digit 'Y'. If not, digit another character.\n");
       if (readChar() == 'Y') {
-	end_flag = 0;
+      	// flush the input buffer
+    	while (getchar() != '\n');
+	    end_flag = 0;
       }
       printf("Now insert the commands you want to execute.\n");
       // main reading loop
