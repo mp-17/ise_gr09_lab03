@@ -1,5 +1,6 @@
 #include "tb.h"
 
+// print a word of the frame
 void printWord(char word){
   int i;
   int num;
@@ -12,7 +13,18 @@ void printWord(char word){
   }
 }
 
+// print the matrix
+void printMtx(void) {
+	for (i=0;i<rowsFrame;i++) {
+		for (j=0;j<colsFrame;j++) {
+			printWord(frameBuffer[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 // routine to flush the buffer
 void flushInBuf(void) {
-	while (getchar() != '\n');
+	char c;
+	while ((c = getchar()) != '\n' && c != EOF);
 }
