@@ -85,10 +85,31 @@ corrispondente.
 			ritornato un 1.
 
 			In caso il comando non sia riconosciuto come completamente valido, viene ritornato un 1.
-	\subsection{draw.c and draw.h}
+      \subsection{draw.c, draw.h and shared.h}
+      Il file draw.c contiene la definizione e la descrizione dell'interfaccia delle funzioni drawPoint, drawLine e drawEllipse e la direttiva \#include al file locale draw.h.
+      IL file draw.h contiene la dichiarazione delle funzioni drawPoint, drawLine e drawEllipse e la definizione di tre macro, tre variabili di nome DRAW\_MODE\_CLEAR, DRAW\_MODE\_SET e DRAW\_MODE\_XOR.
+      draw.h ha anche una direttiva \#include al file locale shared.h e una al file di sistema stdio.h.
+      IL file shared.h contiene la definizione delle macro rowsFrame, colsFrame e wordPixels e la dichiarazione della variabile globale frameBuffer,
+      corrispondende allo schermo virtuale su cui disegnare punti, ellissi e linee a richiesta. frameBuffer viene poi definito nel main.c
 		\paragraph{drawPoint}
 		\paragraph{drawLine}
-		\paragraph{drawEllipse}
+		\paragraph{int drawEllipse(int xc, int xy, int dx, int dy, int m)}
+		La funzione drawEllipse riceve cinque variabili intere come parametri:
+                le cordinate cartesiane del centro dell'ellisse, i diametri orizontale e verticale e il modo attraverso cui scrivere su un array di char.
+		
+		drawEllipse è definita nel file draw.c, dichiarata nel file draw.h.
+                Fa uso di tre macro xmax, ymax e wordPixels, definite le prime due in read.h, l'ultima in shared.h, tre variabili intere di cui la funzione fa ampio uso.
+		
+		Essa si serve dell'algoritmo di Bresenham per disegnare sull'array di char.
+                Il codice dell'algoritmo è stato ricavato correggendo e modificando la porzione di righe di codice trovata alla pagina web
+                \href{https://sites.google.com/site/ruslancray/lab/projects/bresenhamscircleellipsedrawingalgorithm/bresenham-s-circle-ellipse-drawing-algorithm}{Bresenham's circle or ellipse drawing algorithm}.
+                L'algoritmo trovato viene corretto usando in totale due variabili locali di tipo int in meno, non usando la funzione DrawPixel()
+                ed ottimizzando l'algoritmo in modo che non scriva un pixel più di una volta. Quest'ultima correzione è la più importante:
+                senza questa, drawEllipse non sarebbe stata in grado di disegnare secondo il draw mode xor.
+                Altra importante correzione riguarda il controllo della posizione del pixel da scrivere.
+                Se questa cade al di fuori dello schermo virtuale a disposizione, i bit dell'array di char, il pixel non viene disegnato.
+		
+		La funzione ritorna uno zero.
 
 \section{Esercizio 2}
 	\subsection{Dimensione del codice}
