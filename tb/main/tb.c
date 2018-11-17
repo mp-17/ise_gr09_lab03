@@ -1,6 +1,5 @@
 #include "tb.h"
 
-
 void printWord(char word){
   int i;
   int num;
@@ -11,4 +10,9 @@ void printWord(char word){
     printf("%d", num/(int)pow(BASE,i));
     num=num%(int)pow(BASE,i);
   }
+}
+
+// routine to flush the buffer
+void flushInBuf(void) {
+	while (getchar() != '\n');
 }
