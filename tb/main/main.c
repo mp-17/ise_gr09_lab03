@@ -15,10 +15,9 @@ char frameBuffer[rowsFrame][colsFrame];
 int main(int argc, char** argv)
 {
   // variable definitions
-  unsigned short int i=0, j=0;
+  unsigned short int i=0;
   char cmdBuffer[maxCmdLength];
   basicCmd cmdStruct;
-  _Bool cmdValid = 0;
   char justReadChar;
 
   // reset the buffer with harmless characters
@@ -100,9 +99,17 @@ int main(int argc, char** argv)
 		   	if ((justReadChar = readChar()) == 'y') {
 		   		printMtx();
 		   		printf("\n");
-		   	}
 		   	else if (justReadChar != '\n') {
 		   		flushInBuf(); 
+		   		printf("\n");
+		   	}
+		   	// welcome screen
+			printf("Please insert a command in one of the following forms:\n");
+			printf("P'x1''y1''m'\n");
+			printf("L'x1''y1'x2''y2''m'\n");
+			printf("E'x1''y1'dx''dy''m'\n");
+			printf("Where 'x1', 'x2, 'y1', 'y2' are numbes from 0 to 127, and 'm' is a number between 0 and 2.\n");
+			printf("Simply digit it and press enter.\n\n");
 		   	}
 	   	}
     }

@@ -1,4 +1,5 @@
 #include "tb.h"
+#include "shared.h"
 
 // print a word of the frame
 void printWord(char word){
@@ -15,8 +16,8 @@ void printWord(char word){
 
 // print the matrix
 void printMtx(void) {
-	for (i=0;i<rowsFrame;i++) {
-		for (j=0;j<colsFrame;j++) {
+	for (unsigned short int i=0;i<rowsFrame;i++) {
+		for (unsigned short int j=0;j<colsFrame;j++) {
 			printWord(frameBuffer[i][j]);
 		}
 		printf("\n");
