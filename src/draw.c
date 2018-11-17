@@ -16,18 +16,17 @@
 //  a global variable frameBuffer is modified to draw the point
 
 int drawPoint(int x, int y, int m){
-  int nBit= x%8;
 
   if(m == DRAW_MODE_CLEAR){
-    frameBuffer[127-y][x/8] &= ~(0x01 << (7-nBit));
+    frameBuffer[127-y][x/8] &= ~(0x01 << (7-(x%8)));
     return 0;
   }
   else if(m == DRAW_MODE_SET){
-    frameBuffer[127-y][x/8] |= 0x01 << (7-nBit);
+    frameBuffer[127-y][x/8] |= 0x01 << (7-(x%8));
     return 0;
   } 
   else if(m == DRAW_MODE_XOR){
-    frameBuffer[127-y][x/8] ^= (0x01 << (7-nBit));
+    frameBuffer[127-y][x/8] ^= (0x01 << (7-(x%8)));
     return 0;
   }
   else{
