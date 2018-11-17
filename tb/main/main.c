@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 	if ( readCommand(cmdBuffer, &cmdStruct) ) {
 	  	switch (cmdStruct.cmd) {
 	  		case POINT:
-			    //drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
+			    drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
 			    printf("Congratulations! You selected POINT command.\n");
 			    printf("cmd: %c\n", cmdStruct.cmd);
 			    printf("x1: %d\n", cmdStruct.x1);
@@ -63,7 +63,7 @@ int main(int argc, char** argv)
 			    printf("m: %d\n\n", cmdStruct.m);
 			    break;
 		  	case LINE:
-			    //drawLine(cmdStruct.x1, cmdStruct.x2, cmdStruct.y1, cmdStruct.y2, cmdStruct.m);
+			    drawLine(cmdStruct.x1, cmdStruct.x2, cmdStruct.y1, cmdStruct.y2, cmdStruct.m);
 			    printf("Congratulations! You selected LINE command.\n");
 			    printf("cmd: %c\n", cmdStruct.cmd);
 			    printf("x1: %d\n", cmdStruct.x1);
@@ -99,6 +99,7 @@ int main(int argc, char** argv)
 		   	if ((justReadChar = readChar()) == 'y') {
 		   		printMtx();
 		   		printf("\n");
+		   	}
 		   	else if (justReadChar != '\n') {
 		   		flushInBuf(); 
 		   		printf("\n");
@@ -110,7 +111,6 @@ int main(int argc, char** argv)
 			printf("E'x1''y1'dx''dy''m'\n");
 			printf("Where 'x1', 'x2, 'y1', 'y2' are numbes from 0 to 127, and 'm' is a number between 0 and 2.\n");
 			printf("Simply digit it and press enter.\n\n");
-		   	}
 	   	}
     }
   }
