@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass{article}
 
 %% Language and font encodings
 \usepackage[english]{babel}
@@ -32,7 +32,7 @@
 \definecolor{lGreen}{rgb}{51,255,153}
 
 \title{Integrazione di Sistemi Embedded\\ Laboratorio 03}
-\author{Matteo Perotti 251453\\ Giuseppe Puletto\\ Luca Romani 255244\\ Giuseppe Sarda}
+\author{Matteo Perotti 251453\\ Giuseppe Puletto\\ Luca Romani 255244\\ Giuseppe Sarda 255648} 
 
 \begin{document}
 
@@ -114,8 +114,8 @@ corrispondente.
                 \newline
                 Riceve, come da prototipo, le coordinate dei due punti (x1,y1) e (x2,y2), ed infine la modalità di disegno.
                 Ritorna il valore intero '0' se la scrittura all'interno del frameBuffer o '1' se le coordinate degli estremi sono superiori all dimensioni massime dei ``pixel'' scrivibili.
-                L'algoritmo utilizzato per la scrittura del codice è stato ricavato da un documento reperibile al seguente indirizzo web a pagina 6:\newline
-                \href{http://www.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf}\newline
+                L'algoritmo utilizzato per la scrittura del codice è stato ricavato da un documento reperibile al seguente indirizzo web a pagina 6:
+                \href{http://www.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf}{Bresenham's Algorithm.}\newline
                 Lo pseudo-codice si basa sull'algoritmo di Bresenham implementato con numeri interi.
                 Tuttavia nel pdf viene considerato il punto P$_{1}$(x$_{1}$,y$_{1}$) sempre l'estremo di partenza, dando per scontato che le ordinate e coordinate siano di modulo inferiore a quelle del punto P$_{2}$(x$_{2}$,y$_{2}$).
                 È stata dunque necessaria una rivisitazione per considerare tutti gli altri casi e permettere un corretto funzionamento del codice.

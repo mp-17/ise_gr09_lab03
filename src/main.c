@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 		  		drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
 		  	break;
 		  	case LINE:
-		  		drawLine(cmdStruct.x1, cmdStruct.x2, cmdStruct.y1, cmdStruct.y2, cmdStruct.m);
+		  		drawLine(cmdStruct.x1, cmdStruct.y1, cmdStruct.x2, cmdStruct.y2, cmdStruct.m);
 		  	break;
 		  	case ELLIPSE:
 		  		drawEllipse(cmdStruct.x1, cmdStruct.y1, cmdStruct.dx, cmdStruct.dy, cmdStruct.m);

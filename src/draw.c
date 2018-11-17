@@ -1,5 +1,7 @@
 #include "draw.h"
 
+char frameBuffer[rowsFrame][colsFrame];
+
 //drawPoint()
 //DESCRIPTION
 //  Draw a point in the frameBuffer
@@ -52,7 +54,7 @@ int drawPoint(int x, int y, int m){
 //   Department of Computer Science
 //   University of California, Davis
 
-int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m){
+int drawLine(int x1,int y1,int x2,int y2,int m){
   if ((x1 > (colsFrame*wordPixels-1)) || (x2 > (colsFrame*wordPixels-1)) || (y1 > (rowsFrame-1))  || (y2 > (rowsFrame-1)))
     return 1;
   int di,dj,eps,maxX;
@@ -76,20 +78,7 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
     startPoint='1';
   }
   while (j<maxX+1) {
-    switch (m) {
-      case DRAW_MODE_CLEAR: {
-	frameBuffer[rowsFrame-1-i][j/8] &= ~(0x01<<(wordPixels-j%wordPixels-1));
-	break;
-      }
-      case DRAW_MODE_SET: {
-	frameBuffer[rowsFrame-1-i][j/8] |= (0x01<<(wordPixels-j%wordPixels-1));
-	break;
-      }
-      case DRAW_MODE_XOR: {
-	frameBuffer[rowsFrame-1-i][j/8] ^= (0x01<<(wordPixels-j%wordPixels-1));
-	break;
-      }
-    }
+    drawPoint(j,i,m);
     if (eps>=0){
       if (startPoint=='1'){
 	if (y1>y2)

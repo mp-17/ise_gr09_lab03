@@ -16,18 +16,17 @@
 //  a global variable frameBuffer is modified to draw the point
 
 int drawPoint(int x, int y, int m){
-  int nBit= x%8;
 
   if(m == DRAW_MODE_CLEAR){
-    frameBuffer[127-y][x/8] &= ~(0x01 << (7-nBit));
+    frameBuffer[127-y][x/8] &= ~(0x01 << (7-(x%8)));
     return 0;
   }
   else if(m == DRAW_MODE_SET){
-    frameBuffer[127-y][x/8] |= 0x01 << (7-nBit);
+    frameBuffer[127-y][x/8] |= 0x01 << (7-(x%8));
     return 0;
   } 
   else if(m == DRAW_MODE_XOR){
-    frameBuffer[127-y][x/8] ^= (0x01 << (7-nBit));
+    frameBuffer[127-y][x/8] ^= (0x01 << (7-(x%8)));
     return 0;
   }
   else{
@@ -47,8 +46,13 @@ int drawPoint(int x, int y, int m){
 //   6*int + 1*char
 //MEMORY MODIFICATIONS
 //   Modify the global matrix called frameBuffer
+//CREDITS FOR BRESHENHAM’S ALGORITHM
+//   Kenneth I. Joy
+//   Visualization and Graphics Research Group
+//   Department of Computer Science
+//   University of California, Davis
 
-int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m){
+int drawLine(int x1,int y1,int x2,int y2,int m){
   if ((x1 > (colsFrame*wordPixels-1)) || (x2 > (colsFrame*wordPixels-1)) || (y1 > (rowsFrame-1))  || (y2 > (rowsFrame-1)))
     return 1;
   int di,dj,eps,maxX;
@@ -72,20 +76,7 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
     startPoint='1';
   }
   while (j<maxX+1) {
-    switch (m) {
-      case DRAW_MODE_CLEAR: {
-	frameBuffer[rowsFrame-1-i][j/8] &= ~(0x01<<(wordPixels-j%wordPixels-1));
-	break;
-      }
-      case DRAW_MODE_SET: {
-	frameBuffer[rowsFrame-1-i][j/8] |= (0x01<<(wordPixels-j%wordPixels-1));
-	break;
-      }
-      case DRAW_MODE_XOR: {
-	frameBuffer[rowsFrame-1-i][j/8] ^= (0x01<<(wordPixels-j%wordPixels-1));
-	break;
-      }
-    }
+    drawPoint(j,i,m);
     if (eps>=0){
       if (startPoint=='1'){
 	if (y1>y2)

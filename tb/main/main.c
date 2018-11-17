@@ -63,7 +63,7 @@ int main(int argc, char** argv)
 			    printf("m: %d\n\n", cmdStruct.m);
 			    break;
 		  	case LINE:
-			    drawLine(cmdStruct.x1, cmdStruct.x2, cmdStruct.y1, cmdStruct.y2, cmdStruct.m);
+			    drawLine(cmdStruct.x1, cmdStruct.y1, cmdStruct.x2, cmdStruct.y2, cmdStruct.m);
 			    printf("Congratulations! You selected LINE command.\n");
 			    printf("cmd: %c\n", cmdStruct.cmd);
 			    printf("x1: %d\n", cmdStruct.x1);
