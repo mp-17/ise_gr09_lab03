@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm *.ex
+cp ../../src/draw* .
 echo "Compiling..."
 gcc -Wall read.c draw.c tb.c -lm main.c -o run.ex
 chmod +x run.ex

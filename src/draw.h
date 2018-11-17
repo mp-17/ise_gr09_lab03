@@ -10,6 +10,6 @@
 #define DRAW_MODE_XOR   2
 
 int drawPoint(int x, int y, int m);
-int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,unsigned int m);
+int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m);
 int drawEllipse(int xc, int yc, int dx, int dy, int m);
 int abs(int num);
