@@ -17,6 +17,9 @@ char frameBuffer[rowsFrame][colsFrame];
 //MEMORY MODIFICATION
 //  a global variable frameBuffer is modified to draw the point
 
+char frameBuffer[rowsFrame][colsFrame];
+
+
 int drawPoint(int x, int y, int m){
 
   if(m == DRAW_MODE_CLEAR){
