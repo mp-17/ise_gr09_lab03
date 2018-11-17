@@ -26,7 +26,7 @@ int main(int argc, char** argv)
   }
 
   // mtx welcome screen
-  printf("Here there is our Mtx in its initial state:\n\n");
+  printf("\nHere there is our Mtx in its initial state:\n\n");
   // print the first state of the mtx
   printMtx();
   printf("\n");
