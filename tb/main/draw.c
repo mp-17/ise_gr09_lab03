@@ -132,20 +132,20 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
     {
 
         
-      if ((yc+x)>=0 && (yc+x)<=N) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
+      if ((yc+x)>=0 && (yc+x)<=rowsFrame-1) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
         {
-            if ((xc+y)>=0 && (xc+y)<=N) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
+            if ((xc+y)>=0 && (xc+y)<=rowsFrame-1) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
             {	
 	      if ((yc+x) != (yc-x)) { //Bresenham's algorithm first correction: we don't want write one pixel more than one time
 		  switch (m) {
 		  case 0 : //clear pixel
-		    frameBuffer[yc+x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    frameBuffer[yc+x][(xc+y)/wordPixels] &= ~(1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 1 : //set pixel
-		    frameBuffer[yc+x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc+x][(xc+y)/wordPixels] |= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 2 : //xor pixel
-		    frameBuffer[yc+x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc+x][(xc+y)/wordPixels] ^= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  default :
 		    break;
@@ -153,39 +153,39 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=N)
+        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
         {
-            if ((xc+y)>=0 && (xc+y)<=N)
+            if ((xc+y)>=0 && (xc+y)<=rowsFrame-1)
             {
 	      switch (m) {
 		  case 0 :
-		    frameBuffer[yc-x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    frameBuffer[yc-x][(xc+y)/wordPixels] &= ~(1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc-x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc-x][(xc+y)/wordPixels] |= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc-x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc-x][(xc+y)/wordPixels] ^= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  default :
 		    break;
 		  }
             }
         }
-        if ((yc+x)>=0 && (yc+x)<=N)
+        if ((yc+x)>=0 && (yc+x)<=rowsFrame-1)
         {
-            if ((xc-y)>=0 && (xc-y)<=N)
+            if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
                 if ((yc-x) != (yc+x)) {
 		  switch (m) {
 		  case 0 :
-		    frameBuffer[yc+x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    frameBuffer[yc+x][(xc-y)/wordPixels] &= ~(1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc+x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc+x][(xc-y)/wordPixels] |= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc+x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc+x][(xc-y)/wordPixels] ^= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  default :
 		    break;
@@ -193,19 +193,19 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=N)
+        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
         {
-            if ((xc-y)>=0 && (xc-y)<=N)
+            if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
 	      switch (m) {
 		  case 0 :
-		    frameBuffer[yc-x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    frameBuffer[yc-x][(xc-y)/wordPixels] &= ~(1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc-x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc-x][(xc-y)/wordPixels] |= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc-x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc-x][(xc-y)/wordPixels] ^= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  default :
 		    break;
@@ -228,20 +228,20 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
     for (x = dy/2, y = 0, sigma = 2*(dy/2 * dy/2)+(dx/2 * dx/2)*(1-2*dy/2); (dy/2 * dy/2)*y <= (dx/2 * dx/2)*x; y++)
     {
       if (x!=x_last || y!=y_last){ //Bresenham's algorithm second correction: we don't want to overwrite pixels of vertical and horizontal parts
-        if ((yc+x)>=0 && (yc+x)<=N)
+        if ((yc+x)>=0 && (yc+x)<=rowsFrame-1)
         {
-            if ((xc+y)>=0 && (xc+y)<=N)
+            if ((xc+y)>=0 && (xc+y)<=rowsFrame-1)
             {
                 if ((xc+y) != (xc-y)) {
 		  switch (m) {
 		  case 0 :
-		    frameBuffer[yc+x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    frameBuffer[yc+x][(xc+y)/wordPixels] &= ~(1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc+x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc+x][(xc+y)/wordPixels] |= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc+x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc+x][(xc+y)/wordPixels] ^= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  default :
 		    break;
@@ -249,20 +249,20 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=N)
+        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
         {
-            if ((xc+y)>=0 && (xc+y)<=N)
+            if ((xc+y)>=0 && (xc+y)<=rowsFrame-1)
             {
                 if ((xc+y) != (xc-y)) {
 		  switch (m) {
 		  case 0 :
-		    frameBuffer[yc-x][(xc+y)/l] &= ~(1<<(7-((xc+y)%l)));
+		    frameBuffer[yc-x][(xc+y)/wordPixels] &= ~(1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc-x][(xc+y)/l] |= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc-x][(xc+y)/wordPixels] |= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc-x][(xc+y)/l] ^= (1<<(7-((xc+y)%l)));
+		    frameBuffer[yc-x][(xc+y)/wordPixels] ^= (1<<(7-((xc+y)%wordPixels)));
 		    break;
 		  default :
 		    break;
@@ -270,38 +270,38 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc+x)>=0 && (yc+x)<=N)
+        if ((yc+x)>=0 && (yc+x)<=rowsFrame-1)
         {
-            if ((xc-y)>=0 && (xc-y)<=N)
+            if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
 	      switch (m) {
 		  case 0 :
-		    frameBuffer[yc+x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    frameBuffer[yc+x][(xc-y)/wordPixels] &= ~(1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc+x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc+x][(xc-y)/wordPixels] |= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc+x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc+x][(xc-y)/wordPixels] ^= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  default :
 		    break;
 		    }
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=N)
+        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
         {
-            if ((xc-y)>=0 && (xc-y)<=N)
+            if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
 	      switch (m) {
 		  case 0 :
-		    frameBuffer[yc-x][(xc-y)/l] &= ~(1<<(7-((xc-y)%l)));
+		    frameBuffer[yc-x][(xc-y)/wordPixels] &= ~(1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 1 :
-		    frameBuffer[yc-x][(xc-y)/l] |= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc-x][(xc-y)/wordPixels] |= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  case 2 :
-		    frameBuffer[yc-x][(xc-y)/l] ^= (1<<(7-((xc-y)%l)));
+		    frameBuffer[yc-x][(xc-y)/wordPixels] ^= (1<<(7-((xc-y)%wordPixels)));
 		    break;
 		  default :
 		    break;
