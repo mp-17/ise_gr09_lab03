@@ -47,6 +47,11 @@ int drawPoint(int x, int y, int m){
 //   6*int + 1*char
 //MEMORY MODIFICATIONS
 //   Modify the global matrix called frameBuffer
+//CREDITS FOR BRESHENHAM’S ALGORITHM
+//   Kenneth I. Joy
+//   Visualization and Graphics Research Group
+//   Department of Computer Science
+//   University of California, Davis
 
 int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m){
   if ((x1 > (colsFrame*wordPixels-1)) || (x2 > (colsFrame*wordPixels-1)) || (y1 > (rowsFrame-1))  || (y2 > (rowsFrame-1)))

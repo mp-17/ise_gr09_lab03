@@ -16,6 +16,14 @@
 \usepackage{float} %images held
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{xcolor} %code ambient colours
+\usepackage[colorlinks]{hyperref} %package to change colors
+\usepackage{listings} %code snippet inside text
+
+%% Defining colours as emacs in code snippet
+\definecolor{Orange}{rgb}{255,128,0}
+\definecolor{lBlue}{rgb}{51,255,255}
+\definecolor{lGreen}{rgb}{51,255,153}
 
 \title{Integrazione di Sistemi Embedded\\ Laboratorio 03}
 \author{Matteo Perotti 251453\\ Giuseppe Puletto\\ Luca Romani\\ Giuseppe Sarda}
@@ -89,10 +97,23 @@ corrispondente.
       Il file draw.c contiene la definizione e la descrizione dell'interfaccia delle funzioni drawPoint, drawLine e drawEllipse e la direttiva \#include al file locale draw.h.
       IL file draw.h contiene la dichiarazione delle funzioni drawPoint, drawLine e drawEllipse e la definizione di tre macro, tre variabili di nome DRAW\_MODE\_CLEAR, DRAW\_MODE\_SET e DRAW\_MODE\_XOR.
       draw.h ha anche una direttiva \#include al file locale shared.h e una al file di sistema stdio.h.
-      IL file shared.h contiene la definizione delle macro rowsFrame, colsFrame e wordPixels e la dichiarazione della variabile globale frameBuffer,
+      IL file shared.h contiene la definizione delle macro rowsFrame, colsFrame e wordPixels e la definizione della variabile globale frameBuffer,
       corrispondende allo schermo virtuale su cui disegnare punti, ellissi e linee a richiesta. frameBuffer viene poi definito nel main.c
 		\paragraph{drawPoint}
 		\paragraph{drawLine}
+                \begin{lstlistings}
+                  int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m)
+                \end{lstlistings}
+                La funzione drawLine descrive, dati due estremi, un segmento all'interno del frameBuffer.
+                \newline
+                Riceve, come da prototipo, le coordinate dei due punti (x1,y1) e (x2,y2), ed infine la modalità di disegno.
+                Ritorna il valore intero '0' se la scrittura all'interno del frameBuffer o '1' se le coordinate degli estremi sono superiori all dimensioni massime dei ``pixel'' scrivibili.
+                L'algoritmo utilizzato per la scrittura del codice è stato ricavato da un documento reperibile al seguente indirizzo web a pagina 6:\newline
+                \href{http://www.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf}\newline
+                Lo pseudo-codice si basa sull'algoritmo di Bresenham implementato con numeri interi.
+                Tuttavia nel pdf viene considerato il punto P_{1}(x_{1},y_{1}) sempre l'estremo di partenza, dando per scontato che le ordinate e coordinate siano di modulo inferiore a quelle del punto P_{2}(x_{2},y_{2}).
+                È stata dunque necessaria una rivisitazione per considerare tutti gli altri casi e permettere un corretto funzionamento del codice.
+                La funzione richiede, infine, l'utilizzo di 6 \textit{int} e 1 \textit{char}.
 		\paragraph{int drawEllipse(int xc, int xy, int dx, int dy, int m)}
 		La funzione drawEllipse riceve cinque variabili intere come parametri:
                 le cordinate cartesiane del centro dell'ellisse, i diametri orizontale e verticale e il modo attraverso cui scrivere su un array di char.
