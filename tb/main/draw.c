@@ -119,7 +119,7 @@ int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int
 //OUTPUT
 //  It returns 0
 //MEMORY NEEDS
-//  it employs five local variables
+//  it employs five int local variables
 //MEMORY MODIFICATION
 //  It accesses and modifies frameBuffer to draw the ellipse
 
