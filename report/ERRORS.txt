@@ -28,9 +28,14 @@ degli estremi sono superiori all dimensioni massime dei “pixel” scrivibili.
 a parte che la frase non ha senso ahahahah XD 
 A parte questo... IL PARSER fa già il controllo! nel draw point diciamo che lo fa, ma nella drawLine ce ne siamo scordati XD
 
+2) VA MODIFICATA COME: Ritorna il valore intero ’0’ se la scrittura all’interno del frameBuffer è stata effettuata con successo,
+’1’ se le coordinate degli estremi sono superiori alle dimensioni massime dei “pixel” scrivibili.
+
 3) dando per scontato che le ordinate e coordinate siano di modulo inferiore
 
 le ordinate e coordinate? lol
+
+coordinate->ascisse ahahaha XD
 
 ----------------drawEllipse--------------
 
