@@ -125,7 +125,7 @@ corrispondente.
                 le cordinate cartesiane del centro dell'ellisse, i diametri orizontale e verticale e il modo attraverso cui scrivere su un array di char.
 		
 		drawEllipse è definita nel file draw.c, dichiarata nel file draw.h.
-                Fa uso di tre MACRO  xmax, ymax e wordPixels, definite le prime due in read.h, l'ultima in shared.h, tre variabili intere di cui la funzione fa ampio uso.
+                Fa uso di tre MACRO  xmax, ymax e wordPixels, definite le prime due in read.h, l'ultima in shared.h.
 		
 		Essa si serve dell'algoritmo di Bresenham per disegnare sull'array di char.
                 Il codice dell'algoritmo è stato ricavato correggendo e modificando la porzione di righe di codice trovata alla pagina web
@@ -134,9 +134,10 @@ corrispondente.
                 ed ottimizzando l'algoritmo in modo che non scriva un pixel più di una volta. Quest'ultima correzione è la più importante:
                 senza questa, drawEllipse non sarebbe stata in grado di disegnare secondo il draw mode xor.
                 Altra importante correzione riguarda il controllo della posizione del pixel da scrivere.
-                Se questa cade al di fuori dello schermo virtuale a disposizione, i bit dell'array di char, il pixel non viene disegnato.
+                Se questa cade al di fuori dello schermo virtuale a disposizione, il pixel non viene disegnato.
 		
-		La funzione ritorna uno zero.
+		La funzione ritorna come valore di ritorno uno zero: gli eventuali pixel da disegnare che cadono al di fuori dello schermo non vengono interpretati come errore, mentre la corretta posizione del parser e
+                le giuste dimensioni dell'ellisse vengono controllate da readCommand.
 
 \section{Esercizio 2}
 	\subsection{Script}
