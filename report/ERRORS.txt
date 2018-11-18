@@ -1,0 +1,48 @@
+----------------drawPoint--------------
+
+1) e la definizione di tre macro, tre variabili di nome -> 
+
+o sono macro, o sono variabili. E non credo venga definito nulla, è solo un'associazione
+
+2) di conseguenza si assume che i valori rispettivamente di x e y sono compresi tra 0-15 e 0-127 
+
+XD forse entrambi 0-127...
+
+3) Se l’intero m che viene passato alla funzione, corrisponde ad una delle 
+
+non ci va la virgola
+
+4) Se l’intero m che viene passato alla funzione, corrisponde ad una delle tre modalità di scrittura
+del buffer definite nell’header “shared.h" allora la funzione modificherà l’opportuno bit nel modo
+desiderato e ritornerà zero, altrimenti verrà ritornato un uno per segnalare la presenta di un errore 
+
+il parser fa già il controllo!
+
+----------------drawLine--------------
+
+1) la funzione drawLine prende ancora unsigned int!!!
+
+2) Ritorna il valore intero ’0’ se la scrittura all’interno del frameBuffer o ’1’ se le coordinate
+degli estremi sono superiori all dimensioni massime dei “pixel” scrivibili.
+
+a parte che la frase non ha senso ahahahah XD 
+A parte questo... IL PARSER fa già il controllo! nel draw point diciamo che lo fa, ma nella drawLine ce ne siamo scordati XD
+
+3) dando per scontato che le ordinate e coordinate siano di modulo inferiore
+
+le ordinate e coordinate? lol
+
+----------------drawEllipse--------------
+
+1) Fa uso di tre macro xmax,
+ymax e wordPixels, definite le prime due in read.h, l’ultima in shared.h, tre variabili intere di cui la funzione fa ampio uso.
+
+stesso discorso di prima, o sono macro o variabili, e non penso si "definiscano"
+
+2) Se questa cade al di fuori dello schermo virtuale a disposizione, i bit dell’array di char, il pixel non viene disegnato.
+
+forse è da riscrivere la frase: il concetto è corretto però
+
+3) La funzione ritorna uno zero.
+
+sempre? allora a cosa serve?
