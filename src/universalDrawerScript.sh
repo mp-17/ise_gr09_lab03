@@ -16,7 +16,7 @@ then
     $1 -Wall -c read.c 
     $1 -Wall -c draw.c 
     $1 -Wall -c main.c
-    $1 -o universalDrawer main.o read.o draw.o
+    $1 -static -o universalDrawer main.o read.o draw.o
     chmod +x universalDrawer
     
     mkdir x86_64_platform
@@ -37,7 +37,7 @@ then
     $1 -Wall --specs=nosys.specs -c read.c 
     $1 -Wall --specs=nosys.specs -c draw.c 
     $1 -Wall --specs=nosys.specs -c main.c
-    $1 --specs=nosys.specs -o universalDrawer main.o read.o draw.o
+    $1 -static --specs=nosys.specs -o universalDrawer main.o read.o draw.o
     chmod +x universalDrawer
     
     mkdir arm_platform
