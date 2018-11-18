@@ -101,10 +101,10 @@ corrispondente.
 			In caso il comando non sia riconosciuto come completamente valido, viene ritornato un 1.
       \subsection{draw.c, draw.h and shared.h}
       Il file draw.c contiene la definizione e la descrizione dell'interfaccia delle funzioni drawPoint, drawLine e drawEllipse e la direttiva \#include al file locale draw.h.
-      IL file draw.h contiene la dichiarazione delle funzioni drawPoint, drawLine e drawEllipse e la definizione di tre macro, tre variabili di nome DRAW\_MODE\_CLEAR, DRAW\_MODE\_SET e DRAW\_MODE\_XOR.
+      IL file draw.h contiene la dichiarazione delle funzioni drawPoint, drawLine e drawEllipse e la definizione di tre MACRO, tre costanti di nome DRAW\_MODE\_CLEAR, DRAW\_MODE\_SET e DRAW\_MODE\_XOR.
       draw.h ha anche una direttiva \#include al file locale shared.h e una al file di sistema stdio.h.
-      IL file shared.h contiene la definizione delle macro rowsFrame, colsFrame e wordPixels e la definizione della variabile globale frameBuffer,
-      corrispondende allo schermo virtuale su cui disegnare punti, ellissi e linee a richiesta. frameBuffer viene poi definito nel main.c
+      IL file shared.h contiene la definizione delle MACRO rowsFrame, colsFrame e wordPixels e la dichiarazione  della variabile globale frameBuffer,
+      corrispondende allo schermo virtuale su cui disegnare punti, ellissi e linee a richiesta. frameBuffer viene poi definito in draw.c.
 		\paragraph{int drawPoint(int x, int y, int m)} La funzione drawPoint è quella più basilare delle tre disponibili per disegnare. Come dichiarato dal prototipo nel file header draw.h, la funzione riceve tre interi, di cui i primi due sono le coordinate x e y del frame buffer. Dato che, dal punto di vista del piano cartesiano le y rappresentano l'altezza in cui si troverà il punto e le x la distanza orizzontale dall'origine, nel momento in cui si passano le due coordinate alla funzione è necessario che queste vengano invertite per puntare alla cella corretta del frameBuffer, che è una matrice di caratteri da 128 righe e 16 colonne da 1 Byte ciascuna. Per cui la variabile y corrisponderà alla i-esima riga della matrice, mentre la variabile x dovrà essere divisa per 8 per capire a quale degli 8 bit del j-esimo carattere si vuole puntare. Bisogna tener presente che le coordinate passate a questa funzione sono state controllate da readCommand(), di conseguenza si assume che i valori rispettivamente di x e y sono compresi tra 0-15 e 0-127.\\
 		Facendo sempre riferimento ad un ipotetico piano cartesiano, se si vuole scrivere l'i-esimo pixel della matrice a partire dal basso occore complementare la coordinata y, sottraendola al numero 127. Siccome nel linguaggio C non esiste la possibilità di accedere direttamente ad uno specifico bit di un carattere è necessario effettuare operazioni ``bitwise" combinando le funzioni booleane e lo shifting di bit, che in questo caso avviene da destra verso sinistra di una quantità pari al resto della divisione di x per otto (il MSB è l'ultimo a sinistra).
 		\newline
@@ -125,7 +125,7 @@ corrispondente.
                 le cordinate cartesiane del centro dell'ellisse, i diametri orizontale e verticale e il modo attraverso cui scrivere su un array di char.
 		
 		drawEllipse è definita nel file draw.c, dichiarata nel file draw.h.
-                Fa uso di tre macro xmax, ymax e wordPixels, definite le prime due in read.h, l'ultima in shared.h, tre variabili intere di cui la funzione fa ampio uso.
+                Fa uso di tre MACRO  xmax, ymax e wordPixels, definite le prime due in read.h, l'ultima in shared.h, tre variabili intere di cui la funzione fa ampio uso.
 		
 		Essa si serve dell'algoritmo di Bresenham per disegnare sull'array di char.
                 Il codice dell'algoritmo è stato ricavato correggendo e modificando la porzione di righe di codice trovata alla pagina web
