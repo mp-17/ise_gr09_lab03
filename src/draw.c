@@ -111,7 +111,9 @@ int drawLine(int x1,int y1,int x2,int y2,int m){
 //  --dx and dy: they are respectively the horizantal and vertical diameters of the ellipse
 //  --m : it is the draw mode of the function: if m=0, an ellipse is deleted on the screen; if m=1, an ellipse is drawn on the screen;
 //        if m=2, the pixels of the ellipse to draw are cleared or drawn according to their previous state: if they are already drawn, they are cleared and viceversa.
-//  WARNING: The parts of the ellipse to draw that fall out of the virtual screen, are not drawn.
+//  NOTE
+//  --The parts of the ellipse to draw that fall out of the virtual screen, are not drawn.
+//  --if dx(dy) is even, the printed effective dx (dy) will be dx+1 (dy+1)
 //OUTPUT
 //  It returns 0
 //MEMORY NEEDS
@@ -133,7 +135,7 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
             if ((xc+y)>=0 && (xc+y)<=rowsFrame-1) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
             {	
 	      if ((yc+x) != (yc-x)) { //Bresenham's algorithm first correction: we don't want write one pixel more than one time
-		  drawPoint(xc+y, yc-x, m);
+		drawPoint(xc+y, yc-x, m); //yc+x => yc-x : correzione aggiunta per poter invocare correttamente la funzione drawPoint.
 		}
             }
         }
