@@ -45,6 +45,8 @@ int main(int argc, char** argv)
 	for (i = 1; i < maxCmdLength; i++) {
 	  	cmdBuffer[i-1] = cmdBuffer[i];
 	}
+
+	printf("%d\n", POINT);
 	// read the new character
 	cmdBuffer[maxCmdLength-1] = readChar();
 	// if there is a valid command in the buffer, execute it. Otherwise, loop

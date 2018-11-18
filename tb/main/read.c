@@ -59,7 +59,7 @@ int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 
 	unsigned short int calcBuf = 0;
 
-	if (cmdBuffer[minCmdOffset] == POINT) {
+	if ((int)cmdBuffer[minCmdOffset] == POINT) {
 		calcBuf = char2int(cmdBuffer[minCmdOffset+1])*100;
 		calcBuf += char2int(cmdBuffer[minCmdOffset+2])*10;
 		(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[minCmdOffset+3]);
@@ -75,7 +75,7 @@ int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 		}
 	}
 	else {
-		switch (cmdBuffer[0]) {
+		switch ((int)cmdBuffer[0]) {
 			case LINE:
 				calcBuf = char2int(cmdBuffer[1])*100;
 				calcBuf += char2int(cmdBuffer[2])*10;
@@ -111,7 +111,7 @@ int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 				calcBuf += char2int(cmdBuffer[11])*10;
 				(*cmdStruc_pt).dy = calcBuf + char2int(cmdBuffer[12]);
 				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
-				if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).dx <= xMax && (unsigned int)(*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) ) {
+				if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).dx != 0 && (unsigned int)(*cmdStruc_pt).dx <= xMax && (unsigned int)(*cmdStruc_pt).dy != 0 && (unsigned int)(*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) ) {
 					return 0;
 				}
 				else {
