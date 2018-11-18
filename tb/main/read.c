@@ -55,7 +55,7 @@ short int char2int(char charIn) {
 // - the passed array has to be at least max{14 positions, minCmdLength+7 positions} long
 // MEMORY MODIFICATION
 // - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
-_Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
+int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 
 	unsigned short int calcBuf = 0;
 
@@ -67,11 +67,11 @@ _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 		calcBuf += char2int(cmdBuffer[minCmdOffset+5])*10;
 		(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[minCmdOffset+6]);
 		(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdOffset+7]);
-		if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).m < 3) ) {
+		if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).m < 3) ) {
 			return 0;
 		}
 		else {
-			(*cmdStruc_pt).cmd = cmdBuffer[minCmdOffset];
+			(*cmdStruc_pt).cmd = (int)cmdBuffer[minCmdOffset];
 		}
 	}
 	else {
@@ -90,11 +90,11 @@ _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 				calcBuf += char2int(cmdBuffer[11])*10;
 				(*cmdStruc_pt).y2 = calcBuf + char2int(cmdBuffer[12]);
 				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
-				if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).x2 <= xMax && (*cmdStruc_pt).y2 <= yMax && (*cmdStruc_pt).m < 3) ) {
+				if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).x2 <= xMax && (unsigned int)(*cmdStruc_pt).y2 <= yMax && (unsigned int)(*cmdStruc_pt).m < 3) ) {
 					return 0;
 				}
 				else {
-					(*cmdStruc_pt).cmd = cmdBuffer[0];
+					(*cmdStruc_pt).cmd = (int)cmdBuffer[0];
 				}
 				break;
 			case ELLIPSE:
@@ -111,11 +111,11 @@ _Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 				calcBuf += char2int(cmdBuffer[11])*10;
 				(*cmdStruc_pt).dy = calcBuf + char2int(cmdBuffer[12]);
 				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
-				if ( !((*cmdStruc_pt).x1 <= xMax && (*cmdStruc_pt).y1 <= yMax && (*cmdStruc_pt).dx <= xMax && (*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) ) {
+				if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).dx <= xMax && (unsigned int)(*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) ) {
 					return 0;
 				}
 				else {
-					(*cmdStruc_pt).cmd = cmdBuffer[0];
+					(*cmdStruc_pt).cmd = (int)cmdBuffer[0];
 				}
 				break;
 			default: 

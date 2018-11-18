@@ -1,6 +1,6 @@
-#define POINT 'P'
-#define LINE 'L'
-#define ELLIPSE 'E'
+#define POINT (int)'P'
+#define LINE (int)'L'
+#define ELLIPSE (int)'E'
 #define minCmdLength 8
 #define maxCmdLength 14
 #define minCmdOffset 6 // maxCmdLength-minCmdLength
@@ -17,14 +17,14 @@
 // - dy: legth of the secondary axis (for ellipse)
 // - m: specification for the command
 typedef struct{
-  char cmd;
-  unsigned short int x1;
-  unsigned short int x2;
-  unsigned short int y1;
-  unsigned short int y2;
-  unsigned short int dx;
-  unsigned short int dy;
-  unsigned short int m;
+  int cmd;
+  int x1;
+  int x2;
+  int y1;
+  int y2;
+  int dx;
+  int dy;
+  int m;
 } basicCmd;
 
 // readChar(void) 
@@ -67,4 +67,4 @@ short int char2int(char charIn);
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
-_Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt);
+int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt);

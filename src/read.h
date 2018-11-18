@@ -1,6 +1,6 @@
-#define POINT 'P'
-#define LINE 'L'
-#define ELLIPSE 'E'
+#define POINT (int)'P'
+#define LINE (int)'L'
+#define ELLIPSE (int)'E'
 #define minCmdLength 8
 #define maxCmdLength 14
 #define minCmdOffset 6 // maxCmdLength-minCmdLength
@@ -8,7 +8,7 @@
 #define yMax 127
 
 // basicCmd contains
-// - cmd: the letter which encodes the command
+// - cmd: the letter which encodes the command (integer representation)
 // - x1: first coordinate on the independent axis
 // - x2: second coordinate on the independent axis
 // - y1: first coordinate on the dependent axis
@@ -17,14 +17,14 @@
 // - dy: legth of the secondary axis (for ellipse)
 // - m: specification for the command
 typedef struct{
-  char cmd;
-  unsigned short int x1;
-  unsigned short int x2;
-  unsigned short int y1;
-  unsigned short int y2;
-  unsigned short int dx;
-  unsigned short int dy;
-  unsigned short int m;
+  int cmd;
+  int x1;
+  int x2;
+  int y1;
+  int y2;
+  int dx;
+  int dy;
+  int m;
 } basicCmd;
 
 // readChar(void) 
@@ -51,7 +51,7 @@ char readChar(void);
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // no memory modification
-short int char2int(char charIn);
+unsigned int char2int(char charIn);
 
 // readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt)
 // it reads an array in which a command can be present. If a valid command is recognized then the data structure is updated coherently
@@ -60,11 +60,11 @@ short int char2int(char charIn);
 // - cmdBuffer: the buffer array in which char from input peripheral are stored. The length of cmdBuffer allows it to contain a valid command.
 // - cmdStruc_pt: pointer to basicCommand struct type (this struct has to be instantiated by the caller).
 // OUTPUT
-// - returns a boolean 1 if a valid command is read, otherwise it returns a boolean 0
+// - returns a 1 if a valid command is read, otherwise it returns 0
 // CALLED FUNCTIONS
 // - readChar()
 // MEMORY NEEDS
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
-_Bool readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt);
+int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt);

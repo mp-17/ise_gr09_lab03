@@ -35,6 +35,7 @@ int main(int argc, char** argv)
 		// if there is a valid command in the buffer, execute it. Otherwise, loop
 		if ( readCommand(cmdBuffer, &cmdStruct) ) {
 			switch (cmdStruct.cmd) {
+				printf("%d", cmdStruct.cmd);
 		  	case POINT:
 		  		drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
 		  	break;
