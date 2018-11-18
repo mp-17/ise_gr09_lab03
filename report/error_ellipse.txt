@@ -1,0 +1,6 @@
+1) Fa uso di tre macro xmax,
+ymax e wordPixels, definite le prime due in read.h, l’ultima in shared.h.
+
+2) Se questa cade al di fuori dello schermo virtuale a disposizione, il pixel non viene disegnato.
+
+3) A niente, se fosse satto per me avrei ritornato nulla... La mia funzione o scrive o non scrive, non ci sono vie di mezzo... Non avendo specifiche in merito, ho preferito non dare errori, visto che l'unico possibile era un eventuale centro fuori dalla schermo...
