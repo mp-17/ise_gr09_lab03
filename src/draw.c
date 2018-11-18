@@ -130,7 +130,7 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
     {
 
         
-      if ((yc+x)>=0 && (yc+x)<=rowsFrame-1) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
+      if ((rowsFrame-1-yc+x)>=0 && (rowsFrame-1-yc+x)<=rowsFrame-1) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
         {
             if ((xc+y)>=0 && (xc+y)<=rowsFrame-1) //before writing the pixels, I check if the pixel position is correct, or, in other words, if its position doesn't fall out of the screen
             {	
@@ -139,14 +139,14 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc-x)>=0 && (rowsFrame-1-yc-x)<=rowsFrame-1)
         {
             if ((xc+y)>=0 && (xc+y)<=rowsFrame-1)
             {
 	      drawPoint(xc+y, yc+x, m);
             }
         }
-        if ((yc+x)>=0 && (yc+x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc+x)>=0 && (rowsFrame-1-yc+x)<=rowsFrame-1)
         {
             if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
@@ -155,7 +155,7 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc-x)>=0 && (rowsFrame-1-yc-x)<=rowsFrame-1)
         {
             if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
@@ -178,7 +178,7 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
     for (x = dy/2, y = 0, sigma = 2*(dy/2 * dy/2)+(dx/2 * dx/2)*(1-2*dy/2); (dy/2 * dy/2)*y <= (dx/2 * dx/2)*x; y++)
     {
       if (x!=x_last || y!=y_last){ //Bresenham's algorithm second correction: we don't want to overwrite pixels of vertical and horizontal parts
-        if ((yc+x)>=0 && (yc+x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc+x)>=0 && (rowsFrame-1-yc+x)<=rowsFrame-1)
         {
             if ((xc+y)>=0 && (xc+y)<=rowsFrame-1)
             {
@@ -187,7 +187,7 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc-x)>=0 && (rowsFrame-1-yc-x)<=rowsFrame-1)
         {
             if ((xc+y)>=0 && (xc+y)<=rowsFrame-1)
             {
@@ -196,14 +196,14 @@ int drawEllipse(int xc, int yc, int dx, int dy, int m){
 		}
             }
         }
-        if ((yc+x)>=0 && (yc+x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc+x)>=0 && (rowsFrame-1-yc+x)<=rowsFrame-1)
         {
             if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
 	      drawPoint(xc-y, yc-x, m);
             }
         }
-        if ((yc-x)>=0 && (yc-x)<=rowsFrame-1)
+        if ((rowsFrame-1-yc-x)>=0 && (rowsFrame-1-yc-x)<=rowsFrame-1)
         {
             if ((xc-y)>=0 && (xc-y)<=rowsFrame-1)
             {
