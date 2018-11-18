@@ -109,15 +109,15 @@ corrispondente.
 		Facendo sempre riferimento ad un ipotetico piano cartesiano, se si vuole scrivere l'i-esimo pixel della matrice a partire dal basso occore complementare la coordinata y, sottraendola al numero 127. Siccome nel linguaggio C non esiste la possibilità di accedere direttamente ad uno specifico bit di un carattere è necessario effettuare operazioni ``bitwise" combinando le funzioni booleane e lo shifting di bit, che in questo caso avviene da destra verso sinistra di una quantità pari al resto della divisione di x per otto (il MSB è l'ultimo a sinistra).
 		\newline
 		Se l'intero m che viene passato alla funzione corrisponde ad una delle tre modalità di scrittura del buffer definite nell'header ``shared.h" allora la funzione modificherà l'opportuno bit nel modo desiderato e ritornerà zero, altrimenti verrà ritornato un uno.
-		\paragraph{int drawLine(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,int m)}
+		\paragraph{int drawLine(int x1,int y1,int x2,int y2,int m)}
                 La funzione drawLine descrive, dati due estremi, un segmento all'interno del frameBuffer.
                 \newline
                 Riceve, come da prototipo, le coordinate dei due punti (x1,y1) e (x2,y2), ed infine la modalità di disegno.
-                Ritorna il valore intero '0' se la scrittura all'interno del frameBuffer o '1' se le coordinate degli estremi sono superiori all dimensioni massime dei ``pixel'' scrivibili.
+                Ritorna il valore intero '0' se la scrittura all'interno del frameBuffer è andata a buon fine o '1' se le coordinate degli estremi sono superiori all dimensioni massime dei ``pixel'' scrivibili.
                 L'algoritmo utilizzato per la scrittura del codice è stato ricavato da un documento reperibile al seguente indirizzo web a pagina 6:
                 \href{http://www.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf}{Bresenham's Algorithm.}\newline
                 Lo pseudo-codice si basa sull'algoritmo di Bresenham implementato con numeri interi.
-                Tuttavia nel pdf viene considerato il punto P$_{1}$(x$_{1}$,y$_{1}$) sempre l'estremo di partenza, dando per scontato che le ordinate e coordinate siano di modulo inferiore a quelle del punto P$_{2}$(x$_{2}$,y$_{2}$).
+                Tuttavia nel pdf viene considerato il punto P$_{1}$(x$_{1}$,y$_{1}$) sempre l'estremo di partenza, dando per scontato che le ordinate e ascisse siano di modulo inferiore a quelle del punto P$_{2}$(x$_{2}$,y$_{2}$).
                 È stata dunque necessaria una rivisitazione per considerare tutti gli altri casi e permettere un corretto funzionamento del codice.
                 La funzione richiede, infine, l'utilizzo di 6 \textit{int} e 1 \textit{char}.
 		\paragraph{int drawEllipse(int xc, int xy, int dx, int dy, int m)}
@@ -155,84 +155,80 @@ Di seguito viene riportato il contenuto dei file di log per ciascuna piattaforma
 		\paragraph{x86$\_$64}
 		\begin{center}
 		\begin{lstlisting}
-		text	   data	    bss	    dec	    hex	filename
-		400	      0	      0	    400	    190	main.o
-		1825	      0	      0	   1825	    721	read.o
-		6017	      0	      0	   6017	   1781	draw.o
-		# size output
-		
-		
-		main.o:
-		U drawEllipse
-		U drawLine
-		U drawPoint
-		U _GLOBAL_OFFSET_TABLE_
-		0000000000000000 T main
-		U readChar
-		U readCommand
-		U __stack_chk_fail
-		
-		draw.o:
-		00000000000016d0 T abs
-		0000000000000437 T drawEllipse
-		000000000000019a T drawLine
-		0000000000000000 T drawPoint
-		0000000000000800 C frameBuffer
-		
-		read.o:
-		0000000000000015 T char2int
-		U _GLOBAL_OFFSET_TABLE_
-		U _IO_getc
-		0000000000000000 T readChar
-		0000000000000044 T readCommand
-		U stdin
-		#nm output
+			  text	   data	    bss	    dec	    hex	filename
+			340	      0	      0	    340	    154	main.o
+			1802	      0	      0	   1802	    70a	read.o
+			2273	      0	      0	   2273	    8e1	draw.o
+			# size output
+			
+			
+			main.o:
+			U drawEllipse
+			U drawLine
+			U drawPoint
+			U _GLOBAL_OFFSET_TABLE_
+			0000000000000000 T main
+			U readChar
+			U readCommand
+			U __stack_chk_fail
+			
+			draw.o:
+			0000000000000830 T abs
+			00000000000002d1 T drawEllipse
+			00000000000001c6 T drawLine
+			0000000000000000 T drawPoint
+			0000000000000800 C frameBuffer
+			
+			read.o:
+			0000000000000015 T char2int
+			U _GLOBAL_OFFSET_TABLE_
+			U _IO_getc
+			0000000000000000 T readChar
+			0000000000000044 T readCommand
+			U stdin
+			#nm output
 		\end{lstlisting}	
 		\end{center}
 		
 		\paragraph{ARM}
 		\begin{center}
 		\begin{lstlisting}
-		text	   data	    bss	    dec	    hex	filename
-		396	      0	      0	    396	    18c	main.o
-		2656	      0	      0	   2656	    a60	read.o
-		8096	      0	      0	   8096	   1fa0	draw.o
-		# size output
+			  text	   data	    bss	    dec	    hex	filename
+			356	      0	      0	    356	    164	main.o
+			2500	      0	      0	   2500	    9c4	read.o
+			3212	      0	      0	   3212	    c8c	draw.o
+			# size output
 			
 			
-		main.o:
-		00000000 t $a
-		U drawEllipse
-		U drawLine
-		U drawPoint
-		00000000 T main
-		U readChar
-		U readCommand
+			main.o:
+			00000000 t $a
+			U drawEllipse
+			U drawLine
+			U drawPoint
+			00000000 T main
+			U readChar
+			U readCommand
 			
-		draw.o:
-		00000000 t $a
-		00000220 t $a
-		000005e0 t $a
-		000016b4 t $a
-		00001f64 T abs
-		0000021c t $d
-		000005dc t $d
-		000016b0 t $d
-		000005e0 T drawEllipse
-		00000220 T drawLine
-		00000000 T drawPoint
-		00000800 C frameBuffer
-		
-		read.o:
-		00000000 t $a
-		00000088 t $a
-		00000088 T char2int
-		00000084 t $d
-		U _impure_ptr
-		00000000 T readChar
-		000000e0 T readCommand
-		U __srget_r
-		#nm output
+			draw.o:
+			00000000 t $a
+			0000024c t $a
+			00000c50 T abs
+			00000248 t $d
+			00000410 T drawEllipse
+			0000024c T drawLine
+			00000000 T drawPoint
+			00000800 C frameBuffer
+			
+			read.o:
+			00000000 t $a
+			00000088 t $a
+			00000088 T char2int
+			00000084 t $d
+			U _impure_ptr
+			00000000 T readChar
+			000000e0 T readCommand
+			U __srget_r
+			#nm output
 		\end{lstlisting}
 		\end{center}
 		
