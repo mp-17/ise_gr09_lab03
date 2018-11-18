@@ -55,7 +55,7 @@ then
     
 else
     
-    echo Invalid argument 1, you must inser gcc or arm-none-eabi-gcc
+    echo Invalid argument 1, you must insert gcc or arm-none-eabi-gcc
     exit 1
     
 fi
