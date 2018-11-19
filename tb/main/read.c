@@ -27,9 +27,9 @@ char readChar(void) {
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // no memory modification
-short int char2int(char charIn) {
+int char2int(char charIn) {
 
-	unsigned short int digitOut = 0;
+	unsigned int digitOut = 0;
 
 	digitOut = (int)charIn - '0';
 
@@ -47,82 +47,139 @@ short int char2int(char charIn) {
 // - cmdBuffer: the buffer array in which char from input peripheral are stored. The length of cmdBuffer allows it to contain a valid command.
 // - cmdStruc_pt: pointer to basicCommand struct type (this struct has to be instantiated by the caller).
 // OUTPUT
-// - returns a boolean 1 if a valid command is read, otherwise it returns a boolean 0
+// - returns a 1 if a valid command is read, otherwise it returns a 0
 // CALLED FUNCTIONS
 // - readChar()
 // MEMORY NEEDS
-// - it needs 16 bits for a short int variable
-// - the passed array has to be at least max{14 positions, minCmdLength+7 positions} long
+// it needs space for a definition of an int variable and a byte for a _Bool
 // MEMORY MODIFICATION
 // - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
 int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt) {
 
-	unsigned short int calcBuf = 0;
+	_Bool valid = 0;
+	unsigned int temp;
 
 	if ((int)cmdBuffer[minCmdOffset] == POINT) {
-		calcBuf = char2int(cmdBuffer[minCmdOffset+1])*100;
-		calcBuf += char2int(cmdBuffer[minCmdOffset+2])*10;
-		(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[minCmdOffset+3]);
-		calcBuf = char2int(cmdBuffer[minCmdOffset+4])*100;
-		calcBuf += char2int(cmdBuffer[minCmdOffset+5])*10;
-		(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[minCmdOffset+6]);
-		(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdOffset+7]);
-		if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).m < 3) ) {
-			return 0;
-		}
-		else {
-			(*cmdStruc_pt).cmd = (int)cmdBuffer[minCmdOffset];
+		if ((temp = char2int(cmdBuffer[minCmdOffset+1])) != 10) {
+			(*cmdStruc_pt).x1 = temp*100;
+			if ((temp = char2int(cmdBuffer[minCmdOffset+2])) != 10) {
+				(*cmdStruc_pt).x1 += temp*10;
+				if ((temp = char2int(cmdBuffer[minCmdOffset+3])) != 10) {
+					(*cmdStruc_pt).x1 += temp;
+					if ((temp = char2int(cmdBuffer[minCmdOffset+4])) != 10) {
+						(*cmdStruc_pt).y1 = temp*100;
+						if ((temp = char2int(cmdBuffer[minCmdOffset+5])) != 10) {
+							(*cmdStruc_pt).y1 += temp*10;
+							if ((temp = char2int(cmdBuffer[minCmdOffset+6])) != 10) {
+								(*cmdStruc_pt).y1 += temp;
+								(*cmdStruc_pt).m = char2int(cmdBuffer[minCmdOffset+7]);
+								if ( (unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).m < 3) {
+									(*cmdStruc_pt).cmd = (int)cmdBuffer[minCmdOffset];
+									valid = 1;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	else {
 		switch ((int)cmdBuffer[0]) {
 			case LINE:
-				calcBuf = char2int(cmdBuffer[1])*100;
-				calcBuf += char2int(cmdBuffer[2])*10;
-				(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[3]);
-				calcBuf = char2int(cmdBuffer[4])*100;
-				calcBuf += char2int(cmdBuffer[5])*10;
-				(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[6]);
-				calcBuf = char2int(cmdBuffer[7])*100;
-				calcBuf += char2int(cmdBuffer[8])*10;
-				(*cmdStruc_pt).x2 = calcBuf + char2int(cmdBuffer[9]);
-				calcBuf = char2int(cmdBuffer[10])*100;
-				calcBuf += char2int(cmdBuffer[11])*10;
-				(*cmdStruc_pt).y2 = calcBuf + char2int(cmdBuffer[12]);
-				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
-				if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).x2 <= xMax && (unsigned int)(*cmdStruc_pt).y2 <= yMax && (unsigned int)(*cmdStruc_pt).m < 3) ) {
-					return 0;
-				}
-				else {
-					(*cmdStruc_pt).cmd = (int)cmdBuffer[0];
+				if ((temp = char2int(cmdBuffer[1])) != 10) {
+				(*cmdStruc_pt).x1 = temp*100;
+					if ((temp = char2int(cmdBuffer[2])) != 10) {
+					(*cmdStruc_pt).x1 += temp*10;
+						if ((temp = char2int(cmdBuffer[3])) != 10) {
+						(*cmdStruc_pt).x1 += temp;
+							if ((temp = char2int(cmdBuffer[4])) != 10) {
+							(*cmdStruc_pt).y1 = temp*100;
+								if ((temp = char2int(cmdBuffer[5])) != 10) {
+								(*cmdStruc_pt).y1 += temp*10;
+									if ((temp = char2int(cmdBuffer[6])) != 10) {
+									(*cmdStruc_pt).y1 += temp;
+										if ((temp = char2int(cmdBuffer[7])) != 10) {
+										(*cmdStruc_pt).x2 = temp*100;
+											if ((temp = char2int(cmdBuffer[8])) != 10) {
+											(*cmdStruc_pt).x2 += temp*10;
+												if ((temp = char2int(cmdBuffer[9])) != 10) {
+												(*cmdStruc_pt).x2 += temp;
+													if ((temp = char2int(cmdBuffer[10])) != 10) {
+													(*cmdStruc_pt).y2 = temp*100;
+														if ((temp = char2int(cmdBuffer[11])) != 10) {
+														(*cmdStruc_pt).y2 += temp*10;
+															if ((temp = char2int(cmdBuffer[12])) != 10) {
+															(*cmdStruc_pt).y2 += temp;
+															(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
+																if ( (unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).x2 <= xMax && (unsigned int)(*cmdStruc_pt).y2 <= yMax && (unsigned int)(*cmdStruc_pt).m < 3) {
+																	(*cmdStruc_pt).cmd = (int)cmdBuffer[0];
+																	valid = 1;
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 				break;
 			case ELLIPSE:
-				calcBuf = char2int(cmdBuffer[1])*100;
-				calcBuf += char2int(cmdBuffer[2])*10;
-				(*cmdStruc_pt).x1 = calcBuf + char2int(cmdBuffer[3]);
-				calcBuf = char2int(cmdBuffer[4])*100;
-				calcBuf += char2int(cmdBuffer[5])*10;
-				(*cmdStruc_pt).y1 = calcBuf + char2int(cmdBuffer[6]);
-				calcBuf = char2int(cmdBuffer[7])*100;
-				calcBuf += char2int(cmdBuffer[8])*10;
-				(*cmdStruc_pt).dx = calcBuf + char2int(cmdBuffer[9]);
-				calcBuf = char2int(cmdBuffer[10])*100;
-				calcBuf += char2int(cmdBuffer[11])*10;
-				(*cmdStruc_pt).dy = calcBuf + char2int(cmdBuffer[12]);
-				(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
-				if ( !((unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).dx != 0 && (unsigned int)(*cmdStruc_pt).dx <= xMax && (unsigned int)(*cmdStruc_pt).dy != 0 && (unsigned int)(*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) ) {
-					return 0;
+				if ((temp = char2int(cmdBuffer[1])) != 10) {
+				(*cmdStruc_pt).x1 = temp*100;
+					if ((temp = char2int(cmdBuffer[2])) != 10) {
+					(*cmdStruc_pt).x1 += temp*10;
+						if ((temp = char2int(cmdBuffer[3])) != 10) {
+						(*cmdStruc_pt).x1 += temp;
+							if ((temp = char2int(cmdBuffer[4])) != 10) {
+							(*cmdStruc_pt).y1 = temp*100;
+								if ((temp = char2int(cmdBuffer[5])) != 10) {
+								(*cmdStruc_pt).y1 += temp*10;
+									if ((temp = char2int(cmdBuffer[6])) != 10) {
+									(*cmdStruc_pt).y1 += temp;
+										if ((temp = char2int(cmdBuffer[7])) != 10) {
+										(*cmdStruc_pt).dx = temp*100;
+											if ((temp = char2int(cmdBuffer[8])) != 10) {
+											(*cmdStruc_pt).dx += temp*10;
+												if ((temp = char2int(cmdBuffer[9])) != 10) {
+												(*cmdStruc_pt).dx += temp;
+													if ((temp = char2int(cmdBuffer[10])) != 10) {
+													(*cmdStruc_pt).dy = temp*100;
+														if ((temp = char2int(cmdBuffer[11])) != 10) {
+														(*cmdStruc_pt).dy += temp*10;
+															if ((temp = char2int(cmdBuffer[12])) != 10) {
+															(*cmdStruc_pt).dy += temp;
+															(*cmdStruc_pt).m = char2int(cmdBuffer[13]);
+																if ( (unsigned int)(*cmdStruc_pt).x1 <= xMax && (unsigned int)(*cmdStruc_pt).y1 <= yMax && (unsigned int)(*cmdStruc_pt).dx != 0 && (unsigned int)(*cmdStruc_pt).dx <= xMax && (unsigned int)(*cmdStruc_pt).dy != 0 && (unsigned int)(*cmdStruc_pt).dy <= yMax && (*cmdStruc_pt).m < 3) {
+																	(*cmdStruc_pt).cmd = (int)cmdBuffer[0];
+																	valid = 1;
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-				else {
-					(*cmdStruc_pt).cmd = (int)cmdBuffer[0];
-				}
-				break;
 			default: 
-				return 0;
 				break;
 		}
 	}
 
-	return 1;
+	if (valid) { 
+		return 1; 
+	}
+	else { 
+		return 0;
+	}
 }

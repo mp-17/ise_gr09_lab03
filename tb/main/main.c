@@ -46,12 +46,30 @@ int main(int argc, char** argv)
 	  	cmdBuffer[i-1] = cmdBuffer[i];
 	}
 
-	printf("%d\n", POINT);
+	//printf("\n\n");
+	//printf("It follows the content of the buffer: \n");
+	//for (i = 0; i < maxCmdLength; i++) {
+	//  	printf("B[%d]: %c ", i, cmdBuffer[i]);
+	//}
+	//
+	//printf("\n\n");
+	//printf("It follows the content of the buffer (int casting): \n");
+	//for (i = 0; i < maxCmdLength; i++) {
+	//  	printf("B[%d]: %d ", i, (int)cmdBuffer[i]);
+	//}
+	//
+	//printf("\n\n");
+	//printf("It follows the content of the buffer (unsigned int casting): \n");
+	//for (i = 0; i < maxCmdLength; i++) {
+	//  	printf("B[%d]: %d ", i, (unsigned int)cmdBuffer[i]);
+	//}
+	//printf("\n\n");
+
 	// read the new character
 	cmdBuffer[maxCmdLength-1] = readChar();
 	// if there is a valid command in the buffer, execute it. Otherwise, loop
 	if ( readCommand(cmdBuffer, &cmdStruct) ) {
-	  	switch (cmdStruct.cmd) {
+	  	switch ((int)cmdStruct.cmd) {
 	  		case POINT:
 			    drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
 			    printf("Congratulations! You selected POINT command.\n");
@@ -101,6 +119,7 @@ int main(int argc, char** argv)
 		   	if ((justReadChar = readChar()) == 'y') {
 		   		printMtx();
 		   		printf("\n");
+		   		flushInBuf(); 
 		   	}
 		   	else if (justReadChar != '\n') {
 		   		flushInBuf(); 

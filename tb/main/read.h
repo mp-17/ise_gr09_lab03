@@ -51,7 +51,7 @@ char readChar(void);
 // it needs 16 bits for a short int variable
 // MEMORY MODIFICATION
 // no memory modification
-short int char2int(char charIn);
+int char2int(char charIn);
 
 // readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt)
 // it reads an array in which a command can be present. If a valid command is recognized then the data structure is updated coherently
@@ -60,11 +60,11 @@ short int char2int(char charIn);
 // - cmdBuffer: the buffer array in which char from input peripheral are stored. The length of cmdBuffer allows it to contain a valid command.
 // - cmdStruc_pt: pointer to basicCommand struct type (this struct has to be instantiated by the caller).
 // OUTPUT
-// - returns a boolean 1 if a valid command is read, otherwise it returns a boolean 0
+// - returns a 1 if a valid command is read, otherwise it returns a 0
 // CALLED FUNCTIONS
 // - readChar()
 // MEMORY NEEDS
-// it needs 16 bits for a short int variable
+// it needs space for a definition of an int variable and a byte for a _Bool
 // MEMORY MODIFICATION
 // - *basicCommand memory locations: apart from the "cmd" field, the others are modificated even if the command is not valid
 int readCommand(char* cmdBuffer, basicCmd* cmdStruc_pt);
