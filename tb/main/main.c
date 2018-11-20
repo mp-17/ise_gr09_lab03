@@ -15,15 +15,8 @@ char frameBuffer[rowsFrame][colsFrame];
 int main(int argc, char** argv)
 {
   // variable definitions
-  unsigned short int i=0;
-  char cmdBuffer[maxCmdLength];
   basicCmd cmdStruct;
   char justReadChar;
-
-  // reset the buffer with harmless characters
-  for (i = 0; i < maxCmdLength; i++) {
-    cmdBuffer[i] = '\0';
-  }
 
   // mtx welcome screen
   printf("\nHere there is our Mtx in its initial state:\n\n");
@@ -41,10 +34,6 @@ int main(int argc, char** argv)
 
 
   while (1) {
-	// right shift the elements in the buffer
-	for (i = 1; i < maxCmdLength; i++) {
-	  	cmdBuffer[i-1] = cmdBuffer[i];
-	}
 
 	//printf("\n\n");
 	//printf("It follows the content of the buffer: \n");
@@ -64,11 +53,9 @@ int main(int argc, char** argv)
 	//  	printf("B[%d]: %d ", i, (unsigned int)cmdBuffer[i]);
 	//}
 	//printf("\n\n");
-
-	// read the new character
-	cmdBuffer[maxCmdLength-1] = readChar();
 	// if there is a valid command in the buffer, execute it. Otherwise, loop
-	if ( readCommand(cmdBuffer, &cmdStruct) ) {
+
+	if ( readCommand(&cmdStruct) ) {
 	  	switch ((int)cmdStruct.cmd) {
 	  		case POINT:
 			    drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
@@ -112,8 +99,7 @@ int main(int argc, char** argv)
 			    return 1;
 			    break;
 	   	}
-	   	// not mandatory check. If we are here, then cmdBuffer[maxCmdLength-1] != '\n'
-	   	if (cmdBuffer[maxCmdLength-1] != '\n') {
+	   	
 		   	flushInBuf(); 
 		   	printf("Do you want to print the Mtx? (y to print)\n\n");
 		   	if ((justReadChar = readChar()) == 'y') {
@@ -132,7 +118,6 @@ int main(int argc, char** argv)
 			printf("E'x1''y1'dx''dy''m'\n");
 			printf("Where 'x1', 'x2, 'y1', 'y2' are numbes from 0 to 127, and 'm' is a number between 0 and 2.\n");
 			printf("Simply digit it and press enter.\n\n");
-	   	}
     }
   }
   return 0;
