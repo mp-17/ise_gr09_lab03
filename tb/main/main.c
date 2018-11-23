@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "shared.h"
 #include "read.h"
 #include "draw.h"
 #include "tb.h"
@@ -55,8 +54,8 @@ int main(int argc, char** argv)
 	//printf("\n\n");
 	// if there is a valid command in the buffer, execute it. Otherwise, loop
 
-	if ( readCommand(&cmdStruct) ) {
-	  	switch ((int)cmdStruct.cmd) {
+	if ( !readCommand(&cmdStruct) ) {
+	  	switch (cmdStruct.cmd) {
 	  		case POINT:
 			    drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
 			    printf("Congratulations! You selected POINT command.\n");

@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 	// main reading loop
 	while (1) {
 		// if there is a valid command in the buffer, execute it. Otherwise, loop
-		if ( readCommand(&cmdStruct) ) {
+		if ( !readCommand(&cmdStruct) ) {
 			switch (cmdStruct.cmd) {
 		  	case POINT:
 		  		drawPoint(cmdStruct.x1, cmdStruct.y1, cmdStruct.m);
@@ -31,6 +31,9 @@ int main(int argc, char** argv)
 		  	case ELLIPSE:
 		  		drawEllipse(cmdStruct.x1, cmdStruct.y1, cmdStruct.dx, cmdStruct.dy, cmdStruct.m);
 		  	break;
+		  	//case QUIT:
+		  	//	printFMtx();
+		  	//break;
 		  	default:
 		  		// error: the readCommand has returned a boolean 1 but the cmd field in the struct 
 		  		// is not coherent with a valid command
